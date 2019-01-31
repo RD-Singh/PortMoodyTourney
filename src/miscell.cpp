@@ -12,11 +12,13 @@ miscell::miscell()
 
 void miscell::capTip()
 {
+  flipper.tare_position();
+  
   flipper.set_brake_mode(HOLD);
 
-  flipper.move_relative(-475, -127);
+  flipper.move_relative(-460, -127);
 
-  while (!((flipper.get_position() < -465) && (flipper.get_position() > -485)))
+  while (!((flipper.get_position() < -450) && (flipper.get_position() > -470)))
   {
    pros::delay(2);
   }
