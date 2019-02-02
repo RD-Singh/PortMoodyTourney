@@ -8,6 +8,8 @@ pros::Controller master(MAIN);
 
 pros::Vision vision (8);
 
+static PID * pid = new PID();
+
 Vision::Vision()
 {
 
@@ -43,13 +45,11 @@ void Vision::visionCorrect()
     else
     {
       linedUp = false;
-      leftBDrive.move(0);
-      leftFDrive.move(0);
-      rightFDrive.move(0);
-      rightBDrive.move(0);
+      pid->setZero();
     }
 
     pros::lcd::set_text(5, "The Current Number is: " + std::to_string(x));
+
   }
 }
 
