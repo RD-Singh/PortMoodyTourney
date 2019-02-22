@@ -9,6 +9,7 @@ class Vision
 
     explicit Vision();
     void visionCorrect();
+    void lowFlag();
     void flagAlignment();
 };
 

@@ -1,6 +1,6 @@
 #include "main.h"
 
-pros::Motor fly_Wheel(10, HIGHSPEED, FWD, DEGREES);
+pros::Motor fly_Wheel(10, HIGHSPEED, REV, DEGREES);
 pros::Motor flipper(9, HIGHSPEED, FWD, DEGREES);
 pros::Motor ballIntake(3, HIGHSPEED, REV, DEGREES);
 pros::Motor indexerMtr(4, HIGHSPEED, REV, DEGREES);
@@ -13,7 +13,7 @@ miscell::miscell()
 void miscell::capTip()
 {
   flipper.tare_position();
-  
+
   flipper.set_brake_mode(HOLD);
 
   flipper.move_relative(-460, -127);

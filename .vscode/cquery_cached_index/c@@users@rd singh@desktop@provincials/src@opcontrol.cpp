@@ -19,15 +19,17 @@ static Vision * vis = new Vision();
 
 void opcontrol() {
 
-  pros::Motor leftBDrive_mtr(11, HIGHSPEED, FWD, DEGREES);
-  pros::Motor rightBDrive_mtr(12, HIGHSPEED, REV, DEGREES);
-  pros::Motor leftFDrive_mtr(1, HIGHSPEED, FWD, DEGREES);
-  pros::Motor rightFDrive_mtr(2, HIGHSPEED, REV, DEGREES);
+  pros::Motor backL(11, HIGHSPEED, FWD, DEGREES);
+  pros::Motor backR(12, HIGHSPEED, REV, DEGREES);
+  pros::Motor frontL(1, HIGHSPEED, FWD, DEGREES);
+  pros::Motor frontR(2, HIGHSPEED, REV, DEGREES);
 
-  pros::Motor flyWheel_mtr(10, HIGHSPEED, FWD, DEGREES);
+  pros::Motor flywheel(10, HIGHSPEED, REV, DEGREES);
   pros::Motor tipper(9, HIGHSPEED, FWD, DEGREES);
-  pros::Motor ballIntake_mtr(3, HIGHSPEED, REV, DEGREES);
+  pros::Motor intake(3, HIGHSPEED, REV, DEGREES);
   pros::Motor indexer(4, HIGHSPEED, REV, DEGREES);
+
+  pros::ADIGyro gyro ('A');
 
   pros::Controller master(MAIN);
 
@@ -35,15 +37,14 @@ void opcontrol() {
 
 	while (true) {
 
-		leftBDrive_mtr.move(((master.get_analog(LEFT_Y) + master.get_analog(LEFT_X)/2)*1.5));
-		leftFDrive_mtr.move(((master.get_analog(LEFT_Y) + master.get_analog(LEFT_X)/2)*1.5));
-		rightFDrive_mtr.move(((master.get_analog(LEFT_Y) - master.get_analog(LEFT_X)/2)*1.5));
-		rightBDrive_mtr.move(((master.get_analog(LEFT_Y) - master.get_analog(LEFT_X)/2)*1.5));
+		backL.move(((master.get_analog(LEFT_Y) + master.get_analog(LEFT_X)/2)*1.5));
+		frontL.move(((master.get_analog(LEFT_Y) + master.get_analog(LEFT_X)/2)*1.5));
+		frontR.move(((master.get_analog(LEFT_Y) - master.get_analog(LEFT_X)/2)*1.5));
+		backR.move(((master.get_analog(LEFT_Y) - master.get_analog(LEFT_X)/2)*1.5));
 
-		flyWheel_mtr.set_brake_mode(COAST);
+		flywheel.set_brake_mode(COAST);
 
 		pid->driveBrakeHold();
-
 
     //vis->flagAlignment();
 
@@ -61,27 +62,37 @@ void opcontrol() {
 			speed = 0;
 		}
 
-    flyWheel_mtr.move(speed);
+    flywheel.move(speed);
 
 
     if(master.get_digital(BTN_L1))
 		{
-			indexer.move(100);
+			indexer.move(87);
 		}
 		else if(master.get_digital(BTN_L2))
 		{
-			ballIntake_mtr.move(100);
+			intake.move(127);
 		}
 		else if(master.get_digital(BTN_A))
 		{
-			ballIntake_mtr.move(-87);
+			intake.move(-87);
 		}
 		else
 		{
 			indexer.move(0);
-			ballIntake_mtr.move(0);
+			intake.move(0);
 		}
 
+
+    if(master.get_digital(BTN_Y))
+    {
+      pid->turn(90, 90);
+    }
+
+    pros::lcd::set_text(3, "Left Wheel = " + std::to_string(frontL.get_position()));
+    pros::lcd::set_text(4, "Right Wheel = " + std::to_string(frontR.get_position()));
+    pros::lcd::set_text(5, "Left Wheel = " + std::to_string(frontL.get_actual_velocity()));
+    pros::lcd::set_text(6, "Right Wheel = " + std::to_string(frontR.get_actual_velocity()));
 
     pros::delay(20);
 	}

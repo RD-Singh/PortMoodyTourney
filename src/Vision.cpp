@@ -15,6 +15,33 @@ Vision::Vision()
 
 }
 
+void Vision::lowFlag()
+{
+  int midx = 158;
+
+  bool lowFlag = true;
+
+  int x;
+
+  while(lowFlag)
+  {
+    pros::vision_object_s_t obj = vision.get_by_sig(0, 2);
+    x = obj.x_middle_coord;
+
+    if(x < midx)
+    {
+      leftBDrive.move(-40);
+      leftFDrive.move(-40);
+      rightFDrive.move(40);
+      rightBDrive.move(40);
+    }
+    else
+    {
+      lowFlag = false;
+      pid->setZero();
+    }
+  }
+}
 void Vision::visionCorrect()
 {
   int midX = 158;

@@ -16,6 +16,7 @@ class PID
     void driveBrakeHold();
     void resetBrake();
     void setZero();
+    void backPID(int power);
     void movePID(int power);
     void move(double targetDistance, int maxPower, int flyWheelP, int indexerP, int intakeP, int tipperP);
 };

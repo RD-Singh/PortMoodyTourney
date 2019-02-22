@@ -9,7 +9,7 @@ Auton::Auton()
 
 }
 
-/*void skillsAuton()
+void Auton::skillsAuton()
 {
   //pid->move(distance, power, flywheel, indexer, intake, tipper);
   //pid->miscell(tipper, intake, indexer, time);
@@ -30,9 +30,7 @@ Auton::Auton()
     pid->move(40, -87, 127, 0, 0, 0);
 
     //resets
-    pid->drive(-47, 650);
-
-    extra->stop(200);
+  //pid->drive(-47, 150);
 
     //moves a bit forward
     pid->move(5, 87, 127, 0, 0, 0);
@@ -40,7 +38,7 @@ Auton::Auton()
     extra->stop(150);
 
     //turns towards flags
-    pid->turn(-90, -90);
+    pid->turn(90, -90);
 
     //moves forawrd a bit and toggles top high flag
     pid->move(4, 67, 127, 0, 0, 0);
@@ -220,9 +218,9 @@ Auton::Auton()
 
     //gets on the center platform
     pid->move(67, 87, 127, 127, 127, 0);
-}*/
+}
 
-void skillsAuton()
+/*void skillsAuton2()
 {
   //pid->move(distance, power, flywheel, indexer, intake, tipper);
   //pid->miscell(tipper, intake, indexer, time);
@@ -433,9 +431,11 @@ void skillsAuton()
 
     //gets on the center platform
     pid->move(67, 87, 127, 127, 127, 0);
-}
+}*/
 
-void blueAuton()
+
+
+void Auton::blueAuton()
 {
   extra->flyCoast();
 
@@ -601,7 +601,7 @@ void blueAuton()
   extra->misc(127, 127, 10, 1600);
 }*/
 
-void redAuton()
+void Auton::redAuton()
 {
  extra->flyCoast();
 
