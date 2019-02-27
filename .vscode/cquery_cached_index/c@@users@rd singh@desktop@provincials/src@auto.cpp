@@ -258,7 +258,7 @@ void Auton::skillsAuton()
     extra->misc(0, 127, 0, 800);
 
     //moves forward and toggles the middle high flag
-    pid->move(21, 90, 127, 0, 0, 25);
+    pid->move(21, 90, 127, 0, 0, 29);
 
     extra->stop(350);
 
@@ -270,7 +270,7 @@ void Auton::skillsAuton()
 
     extra->stop(300);
 
-    pid->move(8, 70, 127, 0, -90, 0);
+    pid->move(8.5, 70, 127, 0, -90, 0);
 
     extra->stop(500);
 
@@ -283,7 +283,7 @@ void Auton::skillsAuton()
     extra->stop(300);
 
     //moves back and turns towards the front cap
-    pid->move(28.7, -90, 127, 0, 0, 0);
+    pid->move(27, -90, 127, 0, 0, 0);
 
     extra->stop(300);
 
@@ -291,33 +291,33 @@ void Auton::skillsAuton()
 
     extra->stop(350);
 
-    drive->drive(-45, 400);
-
-    extra->stop(350);
-
-    pid->move(7.5, 70, 127, 0, 0, 10);
+    drive->drive(-45, 340);
 
     extra->stop(400);
+
+    pid->move(7.5, 70, 127, 0, 0, 0);
+
+    extra->stop(500);
 
     pid->turn(45, 90);
 
     extra->stop(400);
 
     //moves towards the front cap and tilts it so the balls roll into the intake
-    pid->move(9.5, 80, 127, 0, 0, 0);
+    pid->move(8.3, 80, 127, 0, 0, 0);
 
-    extra->misc(100, 0, -60, 800);
+    extra->misc(100, 0, -60, 900);
 
-    extra->misc(100, 0, -5, 200);
+    extra->misc(100, 0, -5, 600);
 
     //flips the cap
     pid->move(3, -90, 127, 0, 50, 0);
 
     extra->stop(300);
 
-    pid->move(5, 70, 127, 0, 60, 0);
+    pid->move(6, 70, 127, 0, 60, 0);
 
-    pid->move(5, 70, 127, 0, 60, 90);
+    pid->move(6, 70, 127, 0, 60, 90);
 
     extra->stop(350);
 
@@ -326,7 +326,7 @@ void Auton::skillsAuton()
 
     extra->stop(300);
 
-    pid->move(32, 90, 127, 0, 60, 0);
+    pid->move(31, 90, 127, 0, 60, 0);
 
     extra->stop(350);
 
@@ -336,29 +336,33 @@ void Auton::skillsAuton()
 
     extra->stop(350);
 
-    pid->move(6, -90, 127, 0, 80, 0);
-
-    extra->misc(20, 127, 0, 820);
-
-    pid->move(17, 90, 127, 0, 0, 20);
+    pid->move(8, -90, 127, 0, 80, 0);
 
     extra->stop(300);
 
     look->visionCorrect(sig);
 
-    extra->misc(127, 127, 0, 1000);
+    extra->misc(5, 127, 0, 820);
 
-    //toggles low flag and resets against wall
-    pid->turn(10, 90);
+    pid->move(19, 90, 127, 0, 0, 20);
 
     extra->stop(300);
 
-    pid->move(15, 90, 127, 0, -40, 0);
+    //look->visionCorrect(sig);
 
-    drive->drive(60, 600);
+    extra->misc(127, 127, 0, 1000);
+
+    //toggles low flag and resets against wall
+    pid->turn(13, 90);
+
+    extra->stop(300);
+
+    pid->move(16, 90, 127, 0, -40, 0);
+
+    drive->drive(60, 800);
 
     //backs up and turns on an angle towards the front starting blue tile
-    pid->move(25, -90, 127, 0, -40, 0);
+    pid->move(23, -90, 127, 0, -40, 0);
 
     extra->stop(400);
 
@@ -366,73 +370,83 @@ void Auton::skillsAuton()
 
     extra->stop(350);
 
-    pid->move(37, 90, 127, 0, 0, -20);
-
-    extra->misc(0, 0, -30, 250);
-
-    pid->move(3, 90, 127, 0, 0, 0);
-
-    pid->move(4, 90, 127, 0, 0, 60);
+    pid->move(50, 90, 127, 0, -60, 20);
 
     extra->stop(350);
 
+    pid->move(4, -90, 127, 0, -50, 0);
+
+    extra->stop(400);
+
     pid->turn(90, -90);
 
-    extra->stop(300);
+    extra->stop(400);
 
-    pid->move(24, 90, 127, 0, 0, 0);
+    pid->move(16, -90, 127, 0, 0, 0);
+
+    drive->drive(-50, 600);
+
+    extra->stop(400);
+
+    pid->move(50, 90, 127, 0, 0, 0);
 
     extra->platBall();
 
-    pid->move(3, -60, 127, 0, 0, 0);
+    pid->move(4, -60, 127, 0, 0, 20);
 
-    extra->misc(127, 10, 20, 800);
+    extra->misc(127, 10, 70, 800);
 
-    pid->move(4, -90, 127, 0, 0, 30);
-
-    extra->stop(150);
+    extra->stop(450);
 
     pid->turn(90, -90);
 
+    extra->stop(450);
+
     extra->capTip();
 
-    pid->move(6, 90, 127, 0, 20, 0);
+    pid->move(17, 90, 127, 0, 20, 15);
 
-    extra->misc(60, 0, 0, 600);
+    extra->misc(127, 0, 0, 1000);
 
-    pid->move(22, -90, 127, 0, 60, 0);
+    pid->move(21.5, -90, 127, 0, 60, 0);
 
-    extra->stop(200);
+    extra->stop(400);
 
-    look->visionPivot(-90, sig);
+    pid->turn(90, -90);
+
+    extra->stop(500);
 
     pid->move(4, 70, 127, 0, 0, 0);
 
-    extra->stop(250);
+    look->visionCorrect(sig);
+
+    extra->stop(400);
 
     extra->misc(0, 127, 0, 600);
 
     //moves forward and toggles the middle high flag
-    pid->move(22, 70, 127, 0, 0, 30);
+    pid->move(20, 70, 127, 0, 0, 30);
 
-    extra->stop(150);
+    extra->stop(450);
 
-    look->visionCorrect(sig);
+    //look->visionCorrect(sig);
 
     extra->misc(127, 127, 0, 1000);
 
     //toggles low flag
-    pid->move(6.5, 60, 127, 0, -90, 0);
 
-    //moves back and turns on an angle to align in front of the blue alliance platform
-    pid->move(22, -90, 127, 0, 40, 0);
+    pid->turn(30, 90);
 
-    pid->turn(35, 90);
+    extra->stop(400);
 
-    pid->move(53, -90, 127, 0, 0, 0);
+    pid->move(43, -90, 127, 0, 0, 0);
+
+    extra->stop(400);
 
     //turns towards the aliance platform and resets
     pid->turn(55, 90);
+
+    extra->stop(400);
 
     drive->drive(50, 700);
 
@@ -746,7 +760,7 @@ void Auton::blueBAuton()
 
 }
 
-/*void redAuton()
+/*void*+ redA*-/*uton()
 {
   extra->flyCoast();
 
@@ -915,17 +929,35 @@ void Auton::redBAuton()
   extra->flywheelAccel(110);
 
   //get angled cap
-  pid->move(40, 90, 110, 0, 0, 0);
+  pid->move(39, 90, 110, 0, 0, 0);
 
   extra->misc(80, 0, 0, 600);
 
-  pid->move(35, -90, 110, 0, 60, 0);
+  pid->move(34, -90, 110, 0, 60, 0);
 
   extra->stop(400);
 
-  pid->turn(62, 90);
+  pid->turn(61, 90);
 
   extra->misc(0, 127, 0, 700);
 
-  extra->misc(127, 127, 0, 800);
+  extra->flywheel(91);
+
+  extra->stop(500);
+
+  extra->misc(127, 127, 0, 900);
+
+  pid->turn(17, -90);
+
+  extra->stop(350);
+
+  pid->move(8, 90, 85, 0, 0, 0);
+
+  extra->platBall();
+
+  pid->move(7, -90, 85, 0, 127, 0);
+
+  extra->stop(350);
+
+  extra->misc(127, 127, 0, 1000);
 }

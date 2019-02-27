@@ -2,7 +2,7 @@
 
 
 pros::Motor leftB(11, HIGHSPEED, FWD, DEGREES);
-pros::Motor rightB(12, HIGHSPEED, REV, DEGREES);
+pros::Motor rightB(13, HIGHSPEED, REV, DEGREES);
 pros::Motor leftF(1, HIGHSPEED, FWD, DEGREES);
 pros::Motor rightF(2, HIGHSPEED, REV, DEGREES);
 

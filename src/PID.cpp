@@ -1,7 +1,7 @@
 #include "main.h"
 
 pros::Motor backL(11, HIGHSPEED, FWD, DEGREES);
-pros::Motor backR(12, HIGHSPEED, REV, DEGREES);
+pros::Motor backR(13, HIGHSPEED, REV, DEGREES);
 pros::Motor frontL(1, HIGHSPEED, FWD, DEGREES);
 pros::Motor frontR(2, HIGHSPEED, REV, DEGREES);
 pros::Motor flyWheel(10, HIGHSPEED, REV, DEGREES);

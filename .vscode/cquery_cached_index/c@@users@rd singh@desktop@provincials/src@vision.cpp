@@ -1,7 +1,7 @@
 #include "main.h"
 
 pros::Motor leftBDrive(11, HIGHSPEED, FWD, DEGREES);
-pros::Motor rightBDrive(12, HIGHSPEED, REV, DEGREES);
+pros::Motor rightBDrive(13, HIGHSPEED, REV, DEGREES);
 pros::Motor leftFDrive(1, HIGHSPEED, FWD, DEGREES);
 pros::Motor rightFDrive(2, HIGHSPEED, REV, DEGREES);
 pros::Controller master(MAIN);
