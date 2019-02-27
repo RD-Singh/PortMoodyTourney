@@ -8,14 +8,8 @@ class PID
   public:
 
     explicit PID();
-    void drive(int speed, int time);
-    void resetPos();
     void turn(int degrees, int speed);
     void turnPID(int power);
-    void resetSensor(int target);
-    void driveBrakeHold();
-    void resetBrake();
-    void setZero();
     void backPID(int power);
     void movePID(int power);
     void move(double targetDistance, int maxPower, int flyWheelP, int indexerP, int intakeP, int tipperP);

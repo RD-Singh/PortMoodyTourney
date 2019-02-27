@@ -8,8 +8,9 @@ class Vision
   public:
 
     explicit Vision();
-    void visionCorrect();
+    void visionCorrect(int sig);
     void lowFlag();
+    void visionPivot(int power, int sig);
     void flagAlignment();
 };
 

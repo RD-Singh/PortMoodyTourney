@@ -9,6 +9,7 @@ pros::Controller master(MAIN);
 pros::Vision vision (8);
 
 static PID * pid = new PID();
+static Drive * DRIVE = new Drive();
 
 Vision::Vision()
 {
@@ -28,21 +29,55 @@ void Vision::lowFlag()
     pros::vision_object_s_t obj = vision.get_by_sig(0, 2);
     x = obj.x_middle_coord;
 
-    if(x < midx)
+    if(x < (midx))
     {
       leftBDrive.move(-40);
       leftFDrive.move(-40);
       rightFDrive.move(40);
       rightBDrive.move(40);
     }
+    if (x > (midx + 1))
+    {
+      leftBDrive.move(40);
+      leftFDrive.move(40);
+      rightFDrive.move(-40);
+      rightBDrive.move(-40);
+    }
     else
     {
       lowFlag = false;
-      pid->setZero();
+      DRIVE->setZero();
     }
   }
 }
-void Vision::visionCorrect()
+
+void Vision::visionPivot(int power, int sig)
+{
+  int x;
+  bool linedUp = true;
+  int midX = 158;
+
+  while(linedUp)
+  {
+    pros::vision_object_s_t obj = vision.get_by_sig(0, sig);
+    x = obj.x_middle_coord;
+
+    if(x != (midX - 1))
+    {
+      pid->turnPID(power);
+    }
+    else
+    {
+      linedUp = false;
+      DRIVE->setZero();
+    }
+
+    pros::lcd::set_text(5, "The Current Number is: " + std::to_string(x));
+
+  }
+}
+
+void Vision::visionCorrect(int sig)
 {
   int midX = 158;
 
@@ -52,7 +87,7 @@ void Vision::visionCorrect()
 
   while(linedUp)
   {
-    pros::vision_object_s_t obj = vision.get_by_sig(0, 1);
+    pros::vision_object_s_t obj = vision.get_by_sig(0, sig);
     x = obj.x_middle_coord;
 
     if(x < (midX - 5))
@@ -72,7 +107,7 @@ void Vision::visionCorrect()
     else
     {
       linedUp = false;
-      pid->setZero();
+      DRIVE->setZero();
     }
 
     pros::lcd::set_text(5, "The Current Number is: " + std::to_string(x));

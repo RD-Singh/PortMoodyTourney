@@ -80,6 +80,7 @@ void opcontrol(void);
 #include "PID.hpp"
 #include "miscell.hpp"
 #include "Auton.hpp"
+#include "drive.hpp"
 
 #endif
 

@@ -16,9 +16,28 @@ void miscell::capTip()
 
   flipper.set_brake_mode(HOLD);
 
-  flipper.move_relative(-460, -127);
+  flipper.move_relative(-430, -127);
 
-  while (!((flipper.get_position() < -450) && (flipper.get_position() > -470)))
+  while (!((flipper.get_position() < -420) && (flipper.get_position() > -440)))
+  {
+   pros::delay(2);
+  }
+}
+
+void miscell::flywheel(int x)
+{
+  fly_Wheel.move(x);
+}
+
+void miscell::platBall()
+{
+  flipper.tare_position();
+
+  flipper.set_brake_mode(HOLD);
+
+  flipper.move_relative(-540, -127);
+
+  while (!((flipper.get_position() < -530) && (flipper.get_position() > -550)))
   {
    pros::delay(2);
   }

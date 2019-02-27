@@ -12,6 +12,8 @@ class miscell
     void misc(int intakeP, int indexerP, int tipperP, int time);
     void capTip();
     void stop(int time);
+    void platBall();
+    void flywheel(int x);
     void flyCoast();
     void flywheelAccel(int speed);
 };

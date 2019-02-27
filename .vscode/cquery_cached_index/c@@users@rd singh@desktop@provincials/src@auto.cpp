@@ -1,15 +1,16 @@
 #include "main.h"
 
 PID * pid = new PID();
-static Vision * vision = new Vision();
+Vision * look = new Vision();
 miscell * extra = new miscell();
+Drive * drive = new Drive();
 
 Auton::Auton()
 {
 
 }
 
-void Auton::skillsAuton()
+/*void Auton::skillsAuton() //With resets and no vision sensor
 {
   //pid->move(distance, power, flywheel, indexer, intake, tipper);
   //pid->miscell(tipper, intake, indexer, time);
@@ -30,7 +31,7 @@ void Auton::skillsAuton()
     pid->move(40, -87, 127, 0, 0, 0);
 
     //resets
-  //pid->drive(-47, 150);
+    drive->drive(-47, 150);
 
     //moves a bit forward
     pid->move(5, 87, 127, 0, 0, 0);
@@ -66,7 +67,7 @@ void Auton::skillsAuton()
 
     pid->turn(90, 90);
 
-    pid->drive(-47, 500);
+    drive->drive(-47, 500);
 
     pid->move(7, 67, 127, 0, 0, 10);
 
@@ -110,7 +111,7 @@ void Auton::skillsAuton()
 
     extra->stop(200);
 
-    //vision->visionCorrect();
+    //look->visionCorrect();
 
     extra->misc(20, 127, 0, 820);
 
@@ -118,7 +119,7 @@ void Auton::skillsAuton()
 
     extra->stop(200);
 
-    //vision->visionCorrect();
+    //look->visionCorrect();
 
     extra->misc(127, 127, 0, 1000);
 
@@ -127,7 +128,7 @@ void Auton::skillsAuton()
 
     pid->move(15, 87, 127, 0, -40, 0);
 
-    pid->drive(57, 850);
+    drive->drive(57, 850);
 
     //backs up and turns on an angle towards the front starting blue tile
     pid->move(20, -87, 127, 0, -40, 0);
@@ -143,9 +144,9 @@ void Auton::skillsAuton()
     //straightens, resets and flips the blue side anlged cap
     pid->turn(-28, -90);
 
-    pid->drive(-50, 980);
+    drive->drive(-50, 980);
 
-    pid->setZero();
+    drive->setZero();
 
     extra->capTip();
 
@@ -155,7 +156,7 @@ void Auton::skillsAuton()
 
     pid->move(44, -87, 127, 0, 60, 0);
 
-    pid->drive(-37, 100);
+    drive->drive(-37, 100);
 
     extra->stop(200);
 
@@ -202,7 +203,7 @@ void Auton::skillsAuton()
 
     pid->move(9, 67, 127, 0, 0, 0);
 
-    pid->drive(47, 800);
+    drive->drive(47, 800);
 
     //moves back and turns on an angle to align in front of the blue alliance platform
     pid->move(22, -87, 127, 0, 0, 0);
@@ -214,10 +215,229 @@ void Auton::skillsAuton()
     //turns towards the aliance platform and resets
     pid->turn(-70, -90);
 
-    pid->drive(47, 700);
+    drive->drive(47, 700);
 
     //gets on the center platform
     pid->move(67, 87, 127, 127, 127, 0);
+}*/
+
+//Without as many resets and with vision sensor
+void Auton::skillsAuton()
+{
+  //pid->move(distance, power, flywheel, indexer, intake, tipper);
+  //pid->miscell(tipper, intake, indexer, time);
+
+    int sig = 1;
+
+    extra->flyCoast();
+
+    //gets back cap
+
+    extra->flywheelAccel(127);
+
+    extra->capTip();
+
+    //get angled cap
+    pid->move(40, 90, 127, 0, 0, 0);
+
+    extra->misc(127, 0, 0, 500);
+
+    pid->move(40, -90, 127, 0, 0, 0);
+
+    extra->stop(500);
+
+    //turns towards flags
+    pid->turn(90, 90);
+
+    extra->stop(400);
+
+    //moves forawrd a bit and toggles top high flag
+
+    pid->move(3, 90, 127, 0, 0, 30);
+
+    extra->misc(0, 127, 0, 800);
+
+    //moves forward and toggles the middle high flag
+    pid->move(21, 90, 127, 0, 0, 25);
+
+    extra->stop(350);
+
+    extra->misc(127, 127, 0, 1000);
+
+    //toggles low flag
+
+    pid->turn(15, 90);
+
+    extra->stop(300);
+
+    pid->move(8, 70, 127, 0, -90, 0);
+
+    extra->stop(500);
+
+    pid->move(4, -70, 127, 0, -90, 0);
+
+    extra->stop(500);
+
+    pid->turn(15, -90);
+
+    extra->stop(300);
+
+    //moves back and turns towards the front cap
+    pid->move(28.7, -90, 127, 0, 0, 0);
+
+    extra->stop(300);
+
+    pid->turn(90, -90);
+
+    extra->stop(350);
+
+    drive->drive(-45, 400);
+
+    extra->stop(350);
+
+    pid->move(7.5, 70, 127, 0, 0, 10);
+
+    extra->stop(400);
+
+    pid->turn(45, 90);
+
+    extra->stop(400);
+
+    //moves towards the front cap and tilts it so the balls roll into the intake
+    pid->move(9.5, 80, 127, 0, 0, 0);
+
+    extra->misc(100, 0, -60, 800);
+
+    extra->misc(100, 0, -5, 200);
+
+    //flips the cap
+    pid->move(3, -90, 127, 0, 50, 0);
+
+    extra->stop(300);
+
+    pid->move(5, 70, 127, 0, 60, 0);
+
+    pid->move(5, 70, 127, 0, 60, 90);
+
+    extra->stop(350);
+
+    //turns towards the other side of the field in order to go towards the middle flags
+    pid->turn(45, -90);
+
+    extra->stop(300);
+
+    pid->move(32, 90, 127, 0, 60, 0);
+
+    extra->stop(350);
+
+    //turns towards flags and shoots them
+
+    pid->turn(90, 90);
+
+    extra->stop(350);
+
+    pid->move(6, -90, 127, 0, 80, 0);
+
+    extra->misc(20, 127, 0, 820);
+
+    pid->move(17, 90, 127, 0, 0, 20);
+
+    extra->stop(300);
+
+    look->visionCorrect(sig);
+
+    extra->misc(127, 127, 0, 1000);
+
+    //toggles low flag and resets against wall
+    pid->turn(10, 90);
+
+    extra->stop(300);
+
+    pid->move(15, 90, 127, 0, -40, 0);
+
+    drive->drive(60, 600);
+
+    //backs up and turns on an angle towards the front starting blue tile
+    pid->move(25, -90, 127, 0, -40, 0);
+
+    extra->stop(400);
+
+    pid->turn(90, -90);
+
+    extra->stop(350);
+
+    pid->move(37, 90, 127, 0, 0, -20);
+
+    extra->misc(0, 0, -30, 250);
+
+    pid->move(3, 90, 127, 0, 0, 0);
+
+    pid->move(4, 90, 127, 0, 0, 60);
+
+    extra->stop(350);
+
+    pid->turn(90, -90);
+
+    extra->stop(300);
+
+    pid->move(24, 90, 127, 0, 0, 0);
+
+    extra->platBall();
+
+    pid->move(3, -60, 127, 0, 0, 0);
+
+    extra->misc(127, 10, 20, 800);
+
+    pid->move(4, -90, 127, 0, 0, 30);
+
+    extra->stop(150);
+
+    pid->turn(90, -90);
+
+    extra->capTip();
+
+    pid->move(6, 90, 127, 0, 20, 0);
+
+    extra->misc(60, 0, 0, 600);
+
+    pid->move(22, -90, 127, 0, 60, 0);
+
+    extra->stop(200);
+
+    look->visionPivot(-90, sig);
+
+    pid->move(4, 70, 127, 0, 0, 0);
+
+    extra->stop(250);
+
+    extra->misc(0, 127, 0, 600);
+
+    //moves forward and toggles the middle high flag
+    pid->move(22, 70, 127, 0, 0, 30);
+
+    extra->stop(150);
+
+    look->visionCorrect(sig);
+
+    extra->misc(127, 127, 0, 1000);
+
+    //toggles low flag
+    pid->move(6.5, 60, 127, 0, -90, 0);
+
+    //moves back and turns on an angle to align in front of the blue alliance platform
+    pid->move(22, -90, 127, 0, 40, 0);
+
+    pid->turn(35, 90);
+
+    pid->move(53, -90, 127, 0, 0, 0);
+
+    //turns towards the aliance platform and resets
+    pid->turn(55, 90);
+
+    drive->drive(50, 700);
+
+    //gets on the center platform
+    pid->move(52, 90, 127, 127, 127, 0);
 }
 
 /*void skillsAuton2()
@@ -323,7 +543,7 @@ void Auton::skillsAuton()
 
     extra->stop(200);
 
-    //vision->visionCorrect();
+    //look->visionCorrect();
 
     extra->misc(20, 127, 0, 820);
 
@@ -331,7 +551,7 @@ void Auton::skillsAuton()
 
     extra->stop(200);
 
-    //vision->visionCorrect();
+    //look->visionCorrect();
 
     extra->misc(127, 127, 0, 1000);
 
@@ -433,9 +653,7 @@ void Auton::skillsAuton()
     pid->move(67, 87, 127, 127, 127, 0);
 }*/
 
-
-
-void Auton::blueAuton()
+void Auton::blueFAuton()
 {
   extra->flyCoast();
 
@@ -450,16 +668,15 @@ void Auton::blueAuton()
 
   pid->move(40, -87, 127, 0, 40, 0);
 
-  //resets
-  pid->drive(-57, 500);
-
   //moves a bit forward
   pid->move(5.9, 87, 127, 0, 0, 0);
 
   extra->stop(150);
 
   //turns towards flags
-  pid->turn(90, 90);
+  pid->turn(90, -90);
+
+  extra->stop(200);
 
   //moves forawrd a bit and toggles top high flag
   pid->move(4, 87, 127, 0, 0, 0);
@@ -485,15 +702,17 @@ void Auton::blueAuton()
 
   extra->stop(300);
 
-  pid->turn(-90, -90);
+  pid->turn(90, 90);
 
-  pid->drive(-47, 500);
+  drive->drive(-47, 500);
 
   pid->move(6.6, 67, 90, 0, 0, 0);
 
   extra->stop(200);
 
-  pid->turn(45, 90);
+  pid->turn(45, -90);
+
+  extra->stop(150);
 
   pid->move(10, 67, 94, 0, 0, 0);
 
@@ -520,6 +739,11 @@ void Auton::blueAuton()
   extra->misc(127, 127, 0, 1000);
 
   pid->move(9, -87, 0, 0, 0, 0);*/
+}
+
+void Auton::blueBAuton()
+{
+
 }
 
 /*void redAuton()
@@ -601,7 +825,7 @@ void Auton::blueAuton()
   extra->misc(127, 127, 10, 1600);
 }*/
 
-void Auton::redAuton()
+void Auton::redFAuton()
 {
  extra->flyCoast();
 
@@ -617,7 +841,7 @@ void Auton::redAuton()
  pid->move(40, -87, 127, 0, 0, 0);
 
  //resets
- pid->drive(-47, 440);
+ drive->drive(-47, 440);
 
  extra->stop(200);
 
@@ -655,7 +879,7 @@ void Auton::redAuton()
 
  pid->turn(90, 90);
 
- pid->drive(-47, 390);
+ drive->drive(-47, 390);
 
  pid->move(6.5, 67, 127, 0, 0, 10);
 
@@ -682,4 +906,26 @@ void Auton::redAuton()
  extra->stop(150);
 
  extra->misc(127, 127, 20, 1600);
+}
+
+void Auton::redBAuton()
+{
+  extra->flyCoast();
+
+  extra->flywheelAccel(110);
+
+  //get angled cap
+  pid->move(40, 90, 110, 0, 0, 0);
+
+  extra->misc(80, 0, 0, 600);
+
+  pid->move(35, -90, 110, 0, 60, 0);
+
+  extra->stop(400);
+
+  pid->turn(62, 90);
+
+  extra->misc(0, 127, 0, 700);
+
+  extra->misc(127, 127, 0, 800);
 }

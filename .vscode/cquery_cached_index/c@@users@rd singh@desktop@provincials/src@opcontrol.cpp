@@ -16,6 +16,7 @@
 
 static PID * pid = new PID();
 static Vision * vis = new Vision();
+static Drive * driv = new Drive();
 
 void opcontrol() {
 
@@ -44,23 +45,48 @@ void opcontrol() {
 
 		flywheel.set_brake_mode(COAST);
 
-		pid->driveBrakeHold();
+		driv->driveBrakeHold();
 
     //vis->flagAlignment();
 
     tipper.move(master.get_analog(RIGHT_Y));
 
+
 		if(master.get_digital(BTN_R1))
 		{
-      for(int i = 1; i <= 127; i++)
-			{
-				speed++;
-			}
+      if(speed == 127)
+      {
+        speed = 127;
+      }
+      else if(speed == 0)
+      {
+        for(int i = 1; i <= 127; i++)
+			  {
+				    speed++;
+			  }
+      }
 		}
 		else if(master.get_digital(BTN_R2))
 		{
-			speed = 0;
+      speed = 0;
 		}
+    else if(master.get_digital(BTN_X))
+    {
+      if(speed == 0)
+      {
+        for(int i = 1; i <= 87; i++)
+        {
+          speed++;
+        }
+      }
+      else if(speed == 127)
+      {
+        for (int i = 127; i >= 87; i--)
+        {
+          speed--;
+        }
+      }
+    }
 
     flywheel.move(speed);
 
@@ -84,10 +110,10 @@ void opcontrol() {
 		}
 
 
-    if(master.get_digital(BTN_Y))
+    /*if(master.get_digital(BTN_Y))
     {
       pid->turn(90, 90);
-    }
+    }*/
 
     pros::lcd::set_text(3, "Left Wheel = " + std::to_string(frontL.get_position()));
     pros::lcd::set_text(4, "Right Wheel = " + std::to_string(frontR.get_position()));

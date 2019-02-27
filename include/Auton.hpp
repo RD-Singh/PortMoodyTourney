@@ -10,8 +10,10 @@ class Auton
     explicit Auton();
 
     void skillsAuton();
-    void blueAuton();
-    void redAuton();
+    void blueFAuton();
+    void blueBAuton();
+    void redFAuton();
+    void redBAuton();
 };
 
 
