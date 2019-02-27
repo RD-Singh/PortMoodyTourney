@@ -370,11 +370,11 @@ void Auton::skillsAuton()
 
     extra->stop(350);
 
-    pid->move(50, 90, 127, 0, -60, 20);
+    pid->move(50, 90, 127, 0, -70, 20);
 
     extra->stop(350);
 
-    pid->move(4, -90, 127, 0, -50, 0);
+    pid->move(5.5, -90, 127, 0, -50, 0);
 
     extra->stop(400);
 
@@ -384,7 +384,7 @@ void Auton::skillsAuton()
 
     pid->move(16, -90, 127, 0, 0, 0);
 
-    drive->drive(-50, 600);
+    drive->drive(-50, 420);
 
     extra->stop(400);
 
@@ -392,9 +392,9 @@ void Auton::skillsAuton()
 
     extra->platBall();
 
-    pid->move(4, -60, 127, 0, 0, 20);
+    pid->move(4, -60, 127, 0, 0, 10);
 
-    extra->misc(127, 10, 70, 800);
+    extra->misc(127, 10, 50, 800);
 
     extra->stop(450);
 
@@ -404,11 +404,11 @@ void Auton::skillsAuton()
 
     extra->capTip();
 
-    pid->move(17, 90, 127, 0, 20, 15);
+    pid->move(18, 90, 127, 0, 20, 0);
 
     extra->misc(127, 0, 0, 1000);
 
-    pid->move(21.5, -90, 127, 0, 60, 0);
+    pid->move(22.5, -90, 127, 0, 60, 0);
 
     extra->stop(400);
 
@@ -425,7 +425,7 @@ void Auton::skillsAuton()
     extra->misc(0, 127, 0, 600);
 
     //moves forward and toggles the middle high flag
-    pid->move(20, 70, 127, 0, 0, 30);
+    pid->move(18, 70, 127, 0, 0, 30);
 
     extra->stop(450);
 
@@ -435,11 +435,23 @@ void Auton::skillsAuton()
 
     //toggles low flag
 
-    pid->turn(30, 90);
+    pid->turn(15, 90);
 
     extra->stop(400);
 
-    pid->move(43, -90, 127, 0, 0, 0);
+    pid->move(12, 90, 100, 0, 0, 0);
+
+    drive->drive(50, 600);
+
+    extra->stop(400);
+
+    pid->move(20, -90, 80, 0, 0, 0);
+
+    pid->turn(25, 90);
+
+    extra->stop(400);
+
+    pid->move(41, -90, 60, 0, 0, 0);
 
     extra->stop(400);
 
@@ -451,7 +463,7 @@ void Auton::skillsAuton()
     drive->drive(50, 700);
 
     //gets on the center platform
-    pid->move(52, 90, 127, 127, 127, 0);
+    pid->move(52, 90, 40, 127, 127, 0);
 }
 
 /*void skillsAuton2()
@@ -757,10 +769,69 @@ void Auton::blueFAuton()
 
 void Auton::blueBAuton()
 {
+  extra->flyCoast();
 
+  extra->flywheelAccel(110);
+
+  //get angled cap
+  pid->move(37, 90, 110, 0, 0, 0);
+
+  extra->misc(70, 0, 0, 600);
+
+  extra->stop(300);
+
+  pid->move(32, -90, 110, 0, 60, 0);
+
+  extra->stop(400);
+
+  pid->turn(62, -90);
+
+  extra->misc(0, 127, 0, 700);
+
+  extra->flywheel(82);
+
+  extra->stop(1000);
+
+  extra->misc(127, 127, 0, 900);
+
+  pid->turn(165, 90);
+
+  extra->stop(350);
+
+  pid->move(20, 90, 115, 0, 0, 0);
+
+  extra->stop(350);
+
+  pid->turn(90, -90);
+
+  extra->stop(350);
+
+  pid->move(14.5, 90, 115, 0, 0, 0);
+
+  extra->misc(90, 0, -60, 1200);
+
+  extra->misc(90, 0, -5, 500);
+
+  pid->move(7, 90, 115, 0, 0, 80);
+
+  extra->stop(350);
+
+  pid->move(6, -90, 115, 0, 0, 0);
+
+  pid->turn(60, -90);
+
+  extra->stop(350);
+
+  extra->misc(0, 127, 20, 800);
+
+  extra->flywheel(100);
+
+  extra->stop(800);
+
+  extra->misc(127, 127, 20, 750);
 }
 
-/*void*+ redA*-/*uton()
+/*void*+ redAuton()
 {
   extra->flyCoast();
 
@@ -926,38 +997,40 @@ void Auton::redBAuton()
 {
   extra->flyCoast();
 
-  extra->flywheelAccel(110);
+  extra->flywheelAccel(117);
 
   //get angled cap
-  pid->move(39, 90, 110, 0, 0, 0);
+  pid->move(39, 90, 117, 0, 0, 0);
 
   extra->misc(80, 0, 0, 600);
 
-  pid->move(34, -90, 110, 0, 60, 0);
+  pid->move(34, -90, 117, 0, 60, 0);
 
   extra->stop(400);
 
-  pid->turn(61, 90);
+  pid->turn(60, 90);
 
   extra->misc(0, 127, 0, 700);
 
-  extra->flywheel(91);
+  extra->flywheel(88);
 
-  extra->stop(500);
+  extra->stop(700);
 
   extra->misc(127, 127, 0, 900);
 
-  pid->turn(17, -90);
+  pid->turn(11, -90);
 
   extra->stop(350);
 
-  pid->move(8, 90, 85, 0, 0, 0);
+  pid->move(8, 90, 105, 0, 127, 0);
 
   extra->platBall();
 
-  pid->move(7, -90, 85, 0, 127, 0);
+  pid->move(7, -70, 105, 0, 127, 0);
 
   extra->stop(350);
+
+  pid->move(2, 70, 104, 0, 127, 0);
 
   extra->misc(127, 127, 0, 1000);
 }

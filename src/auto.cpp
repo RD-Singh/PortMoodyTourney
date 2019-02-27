@@ -769,10 +769,71 @@ void Auton::blueFAuton()
 
 void Auton::blueBAuton()
 {
+  extra->flyCoast();
 
+  extra->flywheelAccel(110);
+
+  //get angled cap
+  pid->move(37, 90, 110, 0, 0, 0);
+
+  extra->misc(70, 0, 0, 600);
+
+  extra->stop(300);
+
+  pid->move(32, -90, 110, 0, 60, 0);
+
+  extra->stop(400);
+
+  pid->turn(60, -90);
+
+  extra->misc(0, 127, 0, 700);
+
+  extra->flywheel(82);
+
+  extra->stop(1000);
+
+  extra->misc(127, 127, 0, 900);
+
+  pid->turn(165, 90);
+
+  extra->stop(350);
+
+  pid->move(20, 90, 115, 0, 0, 0);
+
+  extra->stop(350);
+
+  pid->turn(90, -90);
+
+  extra->stop(350);
+
+  pid->move(17, 90, 115, 0, 0, 0);
+
+  extra->misc(90, 0, -60, 1200);
+
+  extra->misc(90, 0, -5, 500);
+
+  pid->move(7, 90, 115, 0, 0, 80);
+
+  extra->stop(350);
+
+  pid->move(6, -90, 115, 0, 0, 0);
+
+  extra->stop(350);
+
+  pid->turn(60, -90);
+
+  extra->stop(350);
+
+  extra->misc(0, 127, 20, 800);
+
+  extra->flywheel(100);
+
+  extra->stop(800);
+
+  extra->misc(127, 127, 20, 750);
 }
 
-/*void*+ redA*-/*uton()
+/*void*+ redAuton()
 {
   extra->flyCoast();
 
@@ -938,38 +999,40 @@ void Auton::redBAuton()
 {
   extra->flyCoast();
 
-  extra->flywheelAccel(110);
+  extra->flywheelAccel(117);
 
   //get angled cap
-  pid->move(39, 90, 110, 0, 0, 0);
+  pid->move(39, 90, 117, 0, 0, 0);
 
   extra->misc(80, 0, 0, 600);
 
-  pid->move(34, -90, 110, 0, 60, 0);
+  pid->move(34, -90, 117, 0, 60, 0);
 
   extra->stop(400);
 
-  pid->turn(61, 90);
+  pid->turn(60, 90);
 
   extra->misc(0, 127, 0, 700);
 
-  extra->flywheel(91);
+  extra->flywheel(88);
 
-  extra->stop(500);
+  extra->stop(700);
 
   extra->misc(127, 127, 0, 900);
 
-  pid->turn(17, -90);
+  pid->turn(11, -90);
 
   extra->stop(350);
 
-  pid->move(8, 90, 85, 0, 0, 0);
+  pid->move(8, 90, 105, 0, 127, 0);
 
   extra->platBall();
 
-  pid->move(7, -90, 85, 0, 127, 0);
+  pid->move(7, -70, 105, 0, 127, 0);
 
   extra->stop(350);
+
+  pid->move(2, 70, 104, 0, 127, 0);
 
   extra->misc(127, 127, 0, 1000);
 }
