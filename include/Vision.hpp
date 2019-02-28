@@ -10,6 +10,7 @@ class Vision
     explicit Vision();
     void visionCorrect(int sig);
     void lowFlag();
+    void highLow(int sig);
     void visionPivot(int power, int sig);
     void flagAlignment();
 };

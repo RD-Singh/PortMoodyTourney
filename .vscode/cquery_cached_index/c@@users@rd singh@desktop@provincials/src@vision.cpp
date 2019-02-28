@@ -4,6 +4,8 @@ pros::Motor leftBDrive(11, HIGHSPEED, FWD, DEGREES);
 pros::Motor rightBDrive(13, HIGHSPEED, REV, DEGREES);
 pros::Motor leftFDrive(1, HIGHSPEED, FWD, DEGREES);
 pros::Motor rightFDrive(2, HIGHSPEED, REV, DEGREES);
+pros::Motor flywhl(10, HIGHSPEED, REV, DEGREES);
+
 pros::Controller master(MAIN);
 
 pros::Vision vision (8);
@@ -115,6 +117,22 @@ void Vision::visionCorrect(int sig)
   }
 }
 
+
+void Vision::highLow(int sig)
+{
+  pros::vision_object_s_t obj = vision.get_by_sig(0, sig);
+
+  int y = obj.top_coord;
+
+  if(y > 100 && y < 110)
+  {
+    flywhl.move(90);
+  }
+  else if(y > 150 && y < 160)
+  {
+    flywhl.move(80);
+  }
+}
 void Vision::flagAlignment()
 {
   int midX = 158;

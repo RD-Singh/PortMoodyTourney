@@ -73,8 +73,8 @@ void PID::turnPID(int power)
 
 void PID::movePID(int initPower)
 {
-  double kp = 0.758;
-  double kd = 0.535;
+  double kp = 0.777;
+  double kd = 0.63;
 
   int main = 0;
   int secondary = 0;
@@ -126,9 +126,9 @@ void PID::movePID(int initPower)
   }
 
   frontL.move(powerLeft);
-  frontR.move(powerRight - 4);
+  frontR.move(powerRight - 3);
   backL.move(powerLeft);
-  backR.move(powerRight - 4);
+  backR.move(powerRight - 3);
 }
 
 void PID::backPID(int power)
@@ -190,7 +190,7 @@ void PID::turn(int degrees, int speed)
 {
   driveMtrs->resetPos();
 
-  double kw = 2.65;
+  double kw = 2.7;
 
   double currentBearing = 0;
   double error = 10;

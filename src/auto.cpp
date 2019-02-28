@@ -247,7 +247,7 @@ void Auton::skillsAuton()
     extra->stop(500);
 
     //turns towards flags
-    pid->turn(90, 90);
+    pid->turn(91, 90);
 
     extra->stop(400);
 
@@ -258,7 +258,7 @@ void Auton::skillsAuton()
     extra->misc(0, 127, 0, 800);
 
     //moves forward and toggles the middle high flag
-    pid->move(21, 90, 127, 0, 0, 29);
+    pid->move(19, 90, 127, 0, 0, 29);
 
     extra->stop(350);
 
@@ -266,7 +266,7 @@ void Auton::skillsAuton()
 
     //toggles low flag
 
-    pid->turn(15, 90);
+    pid->turn(18, 90);
 
     extra->stop(300);
 
@@ -278,7 +278,7 @@ void Auton::skillsAuton()
 
     extra->stop(500);
 
-    pid->turn(15, -90);
+    pid->turn(15.5, -90);
 
     extra->stop(300);
 
@@ -304,7 +304,7 @@ void Auton::skillsAuton()
     extra->stop(400);
 
     //moves towards the front cap and tilts it so the balls roll into the intake
-    pid->move(8.3, 80, 127, 0, 0, 0);
+    pid->move(7.1, 80, 127, 0, 0, 0);
 
     extra->misc(100, 0, -60, 900);
 
@@ -392,9 +392,9 @@ void Auton::skillsAuton()
 
     extra->platBall();
 
-    pid->move(4, -60, 127, 0, 0, 10);
+    pid->move(3.5, -60, 127, 0, 0, 10);
 
-    extra->misc(127, 10, 50, 800);
+    extra->misc(127, 10, 40, 800);
 
     extra->stop(450);
 
@@ -425,7 +425,7 @@ void Auton::skillsAuton()
     extra->misc(0, 127, 0, 600);
 
     //moves forward and toggles the middle high flag
-    pid->move(18, 70, 127, 0, 0, 30);
+    pid->move(16, 70, 127, 0, 0, 30);
 
     extra->stop(450);
 
@@ -439,7 +439,7 @@ void Auton::skillsAuton()
 
     extra->stop(400);
 
-    pid->move(12, 90, 100, 0, 0, 0);
+    pid->move(14, 90, 100, 0, 0, 0);
 
     drive->drive(50, 600);
 
@@ -451,19 +451,19 @@ void Auton::skillsAuton()
 
     extra->stop(400);
 
-    pid->move(41, -90, 60, 0, 0, 0);
+    pid->move(55, -90, 60, 0, 0, 0);
 
     extra->stop(400);
 
     //turns towards the aliance platform and resets
-    pid->turn(55, 90);
+    pid->turn(65, 90);
 
     extra->stop(400);
 
     drive->drive(50, 700);
 
     //gets on the center platform
-    pid->move(52, 90, 40, 127, 127, 0);
+    pid->move(68, 90, 40, 127, 127, 0);
 }
 
 /*void skillsAuton2()
@@ -780,57 +780,57 @@ void Auton::blueBAuton()
 
   extra->stop(300);
 
-  pid->move(32, -90, 110, 0, 60, 0);
+  pid->move(32, -90, 113, 0, 60, 0);
 
   extra->stop(400);
 
   pid->turn(60, -90);
 
-  extra->misc(0, 127, 0, 700);
+  extra->misc(127, 127, 0, 1250);
 
-  extra->flywheel(82);
-
-  extra->stop(1000);
-
-  extra->misc(127, 127, 0, 900);
-
-  pid->turn(165, 90);
+  pid->turn(161, 90);
 
   extra->stop(350);
 
-  pid->move(20, 90, 115, 0, 0, 0);
+  pid->move(18, 90, 115, 0, 0, 0);
+
+  extra->stop(450);
+
+  pid->turn(85, -90);
 
   extra->stop(350);
 
-  pid->turn(90, -90);
-
-  extra->stop(350);
-
-  pid->move(17, 90, 115, 0, 0, 0);
+  pid->move(15.5, 90, 120, 0, 0, 0);
 
   extra->misc(90, 0, -60, 1200);
 
-  extra->misc(90, 0, -5, 500);
+  extra->misc(90, 0, -15, 500);
 
-  pid->move(7, 90, 115, 0, 0, 80);
+  pid->move(2, -90, 120, 0, 0, 0);
 
-  extra->stop(350);
+  extra->stop(200);
 
-  pid->move(6, -90, 115, 0, 0, 0);
-
-  extra->stop(350);
-
-  pid->turn(60, -90);
+  pid->move(10, 90, 120, 0, 0, 80);
 
   extra->stop(350);
 
-  extra->misc(0, 127, 20, 800);
+  pid->move(7, -90, 110, 0, 0, 0);
 
-  extra->flywheel(100);
+  extra->stop(350);
 
-  extra->stop(800);
+  pid->turn(54, -90);
 
-  extra->misc(127, 127, 20, 750);
+  extra->misc(127, 127, 20, 1000);
+
+  pid->move(10, 90, 90, 0, 0, 0);
+
+  extra->stop(350);
+
+  pid->turn(28, -90);
+
+  extra->stop(350);
+
+  pid->move(40, 90, 76, 0, 0, 0);
 }
 
 /*void*+ redAuton()

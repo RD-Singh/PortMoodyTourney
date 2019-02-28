@@ -29,6 +29,7 @@ void opcontrol() {
   pros::Motor tipper(9, HIGHSPEED, FWD, DEGREES);
   pros::Motor intake(3, HIGHSPEED, REV, DEGREES);
   pros::Motor indexer(4, HIGHSPEED, REV, DEGREES);
+  pros::Vision vision (8);
 
   pros::ADIGyro gyro ('A');
 
@@ -46,6 +47,8 @@ void opcontrol() {
 		flywheel.set_brake_mode(COAST);
 
 		driv->driveBrakeHold();
+
+    pros::vision_object_s_t obj = vision.get_by_sig(0, 1);
 
     //vis->flagAlignment();
 
@@ -86,6 +89,9 @@ void opcontrol() {
           speed--;
         }
       }
+
+      vis->visionCorrect(1);
+      vis->highLow(1);
     }
 
     flywheel.move(speed);
