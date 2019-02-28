@@ -27,14 +27,19 @@ void autonomous()
   }
   else if(auton == 1)
   {
-    Auto->edAuton();
+    Auto->eedAuton();
   }
   else if(auton == 2)
   {
     Auto->skillsAuton();
   }*/
   //Auto->blueBAuton();
-  Auto->skillsAuton();
   //Auto->redBAuton();
-  //0Pid->turn(90, 90);
+  Auto->skillsAuton();
+  //Pid->turn(90, 90);
+  //Pid->move(40, 90, 0, 0, 0, 0);
+
+  /*pros::delay(800);
+
+  Pid->move(40, -90, 0, 0, 0, 0);*/
 }

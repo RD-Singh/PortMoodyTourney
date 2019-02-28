@@ -34,10 +34,12 @@ void autonomous()
     Auto->skillsAuton();
   }*/
   //Auto->blueBAuton();
-  //Auto->skillsAuton();
   //Auto->redBAuton();
-    //Pid->turn(90, 90);
-  Pid->move(40, 90, 0, 0, 0, 0);
+  Auto->skillsAuton();
+  //Pid->turn(90, 90);
+  //Pid->move(40, 90, 0, 0, 0, 0);
 
+  /*pros::delay(800);
 
+  Pid->move(40, -90, 0, 0, 0, 0);*/
 }

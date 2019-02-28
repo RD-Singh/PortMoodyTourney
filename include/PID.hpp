@@ -11,7 +11,7 @@ class PID
     void turn(int degrees, int speed);
     void turnPID(int power);
     void backPID(int power);
-    void movePID(int power);
+    void movePID(int power, int error);
     void move(double targetDistance, int maxPower, int flyWheelP, int indexerP, int intakeP, int tipperP);
 };
 

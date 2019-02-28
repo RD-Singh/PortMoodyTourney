@@ -16,9 +16,9 @@ void miscell::capTip()
 
   flipper.set_brake_mode(HOLD);
 
-  flipper.move_relative(-430, -127);
+  flipper.move_relative(-410, -127);
 
-  while (!((flipper.get_position() < -420) && (flipper.get_position() > -440)))
+  while (!((flipper.get_position() < -400) && (flipper.get_position() > -420)))
   {
    pros::delay(2);
   }

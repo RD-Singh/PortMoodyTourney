@@ -21,7 +21,7 @@ PID::PID()
 
 void PID::turnPID(int power)
 {
-  double kp = 0.6595;
+  double kp = 0.78;
   int main = 0;
   int secondary = 0;
   int error = 1;
@@ -71,10 +71,10 @@ void PID::turnPID(int power)
 
 }
 
-void PID::movePID(int initPower)
+void PID::movePID(int initPower, int e)
 {
-  double kp = 0.777;
-  double kd = 0.63;
+  double kp = 0.79;
+  double kd = 0.615;
 
   int main = 0;
   int secondary = 0;
@@ -125,10 +125,18 @@ void PID::movePID(int initPower)
     powerRight = maxPower;
   }
 
+  if(e < 50)
+  {
+    frontL.move(powerLeft - 30);
+    frontR.move(powerRight - 30);
+    backL.move(powerLeft - 30);
+    backR.move(powerRight - 30);
+  }
+
   frontL.move(powerLeft);
-  frontR.move(powerRight - 3);
+  frontR.move(powerRight);
   backL.move(powerLeft);
-  backR.move(powerRight - 3);
+  backR.move(powerRight);
 }
 
 void PID::backPID(int power)
@@ -190,7 +198,7 @@ void PID::turn(int degrees, int speed)
 {
   driveMtrs->resetPos();
 
-  double kw = 2.7;
+  double kw = 2.65;
 
   double currentBearing = 0;
   double error = 10;
@@ -248,7 +256,7 @@ void PID::move(double targetDistance, int maxPower, int flyWheelP, int indexerP,
 
     if(maxPower > 0)
     {
-      movePID(maxPower);
+      movePID(maxPower, error);
     }
     else if(maxPower < 0)
     {
