@@ -118,21 +118,6 @@ void Vision::visionCorrect(int sig)
 }
 
 
-void Vision::highLow(int sig)
-{
-  pros::vision_object_s_t obj = vision.get_by_sig(0, sig);
-
-  int y = obj.top_coord;
-
-  if(y > 100 && y < 110)
-  {
-    flywhl.move(90);
-  }
-  else if(y > 150 && y < 160)
-  {
-    flywhl.move(80);
-  }
-}
 void Vision::flagAlignment()
 {
   int midX = 158;

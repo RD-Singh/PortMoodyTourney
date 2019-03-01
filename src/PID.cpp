@@ -194,7 +194,7 @@ void PID::backPID(int power)
   backR.move(powerRight);
 }
 
-void PID::turn(int degrees, int speed)
+void PID::turn(double degrees, int speed)
 {
   driveMtrs->resetPos();
 

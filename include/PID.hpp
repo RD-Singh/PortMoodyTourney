@@ -8,7 +8,7 @@ class PID
   public:
 
     explicit PID();
-    void turn(int degrees, int speed);
+    void turn(double degrees, int speed);
     void turnPID(int power);
     void backPID(int power);
     void movePID(int power, int error);

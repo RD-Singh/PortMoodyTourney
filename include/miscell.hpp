@@ -13,6 +13,7 @@ class miscell
     void capTip();
     void stop(int time);
     void platBall();
+    void flywheelDrive();
     void flywheel(int x);
     void flyCoast();
     void flywheelAccel(int speed);

@@ -5,10 +5,13 @@ pros::Motor flipper(9, HIGHSPEED, FWD, DEGREES);
 pros::Motor ballIntake(3, HIGHSPEED, REV, DEGREES);
 pros::Motor indexerMtr(4, HIGHSPEED, REV, DEGREES);
 
+
 miscell::miscell()
 {
 
 }
+
+
 
 void miscell::capTip()
 {
