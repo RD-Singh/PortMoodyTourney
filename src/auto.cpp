@@ -245,7 +245,7 @@ void Auton::skillsAuton()
     extra->stop(700);
 
     //turns towards flags
-    pid->turn(90, 90);
+    pid->turn(89, 90);
 
     extra->stop(700);
 
@@ -268,7 +268,7 @@ void Auton::skillsAuton()
 
     pid->turn(12, 90);
 
-    extra->stop(300);
+    extra->stop(200);
 
     pid->move(9, 70, 127, 0, -90, 0);
 
@@ -523,7 +523,7 @@ void Auton::skillsAuton()
     //moves back and turns towards the front cap
     pid->move(31, -87, 127, 0, 0, 0);
 
-    extra->stop(300);
+    extra->stop(200);
 
     pid->turn(90, 90);
 
@@ -683,6 +683,8 @@ void Auton::skillsAuton()
 
 void Auton::blueFAuton()
 {
+  int sig = 3;
+
   extra->flyCoast();
 
   //gets back cap
@@ -690,83 +692,85 @@ void Auton::blueFAuton()
   extra->flywheelAccel(127);
 
   //get angled cap
-  pid->move(40, 87, 127, 0, 0, 0);
+  pid->move(39, 90, 127, 0, 20, 0);
 
-  extra->misc(127, 0, 0, 500);
+  extra->misc(127, 0, 0, 800);
 
-  pid->move(40, -87, 127, 0, 40, 0);
+  pid->move(39, -90, 127, 0, 60, 0);
 
-  //moves a bit forward
-  pid->move(5.9, 87, 127, 0, 0, 0);
+  extra->stop(200);
 
-  extra->stop(150);
+  pid->turn(88, -90);
 
-  //turns towards flags
-  pid->turn(90, -90);
+  //look->visionCorrect(sig);
 
   extra->stop(200);
 
   //moves forawrd a bit and toggles top high flag
-  pid->move(4, 87, 127, 0, 0, 0);
 
-  extra->stop(250);
+  pid->move(2.5, 90, 127, 0, 0, 5);
 
-  extra->misc(0, 127, 0, 600);
+  extra->stop(200);
+
+  extra->misc(0, 127, 0, 800);
 
   //moves forward and toggles the middle high flag
-  pid->move(22.7, 87, 127, 0, 0, 0);
+  pid->move(19.5, 90, 127, 0, 0, -20);
 
-  extra->stop(150);
+  extra->stop(200);
 
-  extra->misc(127, 127, 0, 1000);
+  extra->misc(127, 127, -10, 1000);
 
   //toggles low flag
-  pid->move(7.4, 87, 90, 0, 0, 0);
 
-  extra->misc(0, 0, -90, 350);
+  pid->turn(12, -90);
+
+  extra->stop(200);
+
+  pid->move(9, 90, 127, 0, -90, 0);
+
+  extra->stop(200);
+
+  pid->move(4, -90, 127, 0, -90, 0);
+
+  extra->stop(200);
+
+  pid->turn(12, 90);
+
+  extra->stop(200);
 
   //moves back and turns towards the front cap
-  pid->move(31.25, -87, 90, 0, 0, 5);
-
-  extra->stop(300);
-
-  pid->turn(90, 90);
-
-  drive->drive(-47, 500);
-
-  pid->move(6.6, 67, 90, 0, 0, 0);
+  pid->move(26.5, -90, 127, 0, 0, 0);
 
   extra->stop(200);
 
-  pid->turn(45, -90);
-
-  extra->stop(150);
-
-  pid->move(10, 67, 94, 0, 0, 0);
-
-  extra->misc(100, 0, -62, 800);
-
-  extra->misc(127, 0, 5, 100);
-
-  pid->move(3, -67, 94, 0, 0, -20);
-
-  extra->stop(100);
-
-  pid->move(3, 87, 94, 0, 50, 0);
-
-  pid->move(7, 87, 94, 0, 40, 100);
-
-  extra->misc(127, 127, 5, 1600);
-
-/*   extra->stop(150);
-
-  pid->move(12, 87, 82, 0, 0, 20);
+  pid->turn(45, 90);
 
   extra->stop(200);
 
-  extra->misc(127, 127, 0, 1000);
+  look->visionCorrect(sig);
 
-  pid->move(9, -87, 0, 0, 0, 0);*/
+  extra->stop(200);
+
+  //moves towards the front cap and tilts it so the balls roll into the intake
+  pid->move(12, 90, 105, 0, 0, 0);
+
+  extra->misc(100, 0, -60, 900);
+
+  extra->misc(100, 0, -5, 600);
+
+  //flips the cap
+  pid->move(4, -90, 93, 0, 50, 0);
+
+  extra->stop(200);
+
+  pid->turn(5.5, 90);
+
+  extra->stop(200);
+
+  pid->move(7, 90, 89, 0, 60, 0);
+
+  pid->move(24, 90, 89, 80, 80, 90);
 }
 
 void Auton::blueBAuton()
@@ -780,7 +784,7 @@ void Auton::blueBAuton()
 
   extra->misc(70, 0, 0, 600);
 
-  extra->stop(300);
+  extra->stop(200);
 
   pid->move(32, -90, 113, 0, 60, 0);
 
@@ -794,15 +798,21 @@ void Auton::blueBAuton()
 
   extra->stop(350);
 
-  pid->move(18, 90, 115, 0, 0, 0);
+  pid->move(20, 90, 115, 0, 0, 0);
+
+  drive->drive(50, 600);
 
   extra->stop(450);
 
-  pid->turn(85, -90);
+  pid->move(5, -90, 115, 0, 0, 0);
 
   extra->stop(350);
 
-  pid->move(15.5, 90, 120, 0, 0, 0);
+  pid->turn(89, -90);
+
+  extra->stop(350);
+
+  pid->move(16, 90, 120, 0, 0, 0);
 
   extra->misc(90, 0, -60, 1200);
 
@@ -820,7 +830,7 @@ void Auton::blueBAuton()
 
   extra->stop(350);
 
-  pid->turn(54, -90);
+  pid->turn(56, -90);
 
   extra->misc(127, 127, 20, 1000);
 
@@ -832,7 +842,7 @@ void Auton::blueBAuton()
 
   extra->stop(350);
 
-  pid->move(40, 90, 76, 0, 0, 0);
+  pid->move(45, 90, 76, 0, 0, 0);
 }
 
 /*void*+ redAuton()
@@ -883,7 +893,7 @@ void Auton::blueBAuton()
   //moves back and turns towards the front cap
   pid->move(30.5, -87, 90, 0, 0, 5);
 
-  extra->stop(300);
+  extra->stop(200);
 
   pid->turn(90, 90);
 
@@ -916,85 +926,96 @@ void Auton::blueBAuton()
 
 void Auton::redFAuton()
 {
- extra->flyCoast();
+  int sig = 1;
 
- //gets back cap
+  extra->flyCoast();
 
- extra->flywheelAccel(127);
+  //gets back cap
 
- //get angled cap
- pid->move(40, 87, 127, 0, 0, 0);
+  extra->flywheelAccel(127);
 
- extra->misc(127, 0, 0, 500);
+  //get angled cap
+  pid->move(39, 90, 127, 0, 20, 0);
 
- pid->move(40, -87, 127, 0, 0, 0);
+  extra->misc(127, 0, 0, 800);
 
- //resets
- drive->drive(-47, 440);
+  pid->move(39, -90, 127, 0, 60, 0);
 
- extra->stop(200);
+  extra->stop(200);
 
- //moves a bit forward
- pid->move(5, 87, 127, 0, 0, 0);
+  pid->turn(90, 90);
 
- extra->stop(150);
+  extra->stop(300);
 
- //turns towards flags
- pid->turn(-90, -90);
+  look->visionCorrect(sig);
 
- //moves forawrd a bit and toggles top high flag
- pid->move(4, 67, 127, 0, 0, 0);
+  extra->stop(200);
 
- extra->stop(250);
+  //moves forawrd a bit and toggles top high flag
 
- extra->misc(0, 127, 0, 600);
+  pid->move(2.5, 90, 127, 0, 0, 5);
 
- //moves forward and toggles the middle high flag
- pid->move(22, 67, 127, 0, 0, 30);
+  extra->stop(200);
 
- extra->stop(150);
+  extra->misc(0, 127, 0, 800);
 
- extra->misc(127, 127, 0, 1000);
+  //moves forward and toggles the middle high flag
+  pid->move(19.5, 90, 127, 0, 0, -20);
 
- //toggles low flag
- pid->move(7.6, 47, 127, 0, -90, 0);
+  extra->stop(200);
 
- extra->misc(0, 0, -100, 350);
+  extra->misc(127, 127, -10, 1000);
 
- //moves back and turns towards the front cap
- pid->move(31.5, -87, 127, 0, 0, 0);
+  //toggles low flag
 
- extra->stop(300);
+  pid->turn(12, 90);
 
- pid->turn(90, 90);
+  extra->stop(200);
 
- drive->drive(-47, 390);
+  pid->move(9, 90, 127, 0, -90, 0);
 
- pid->move(6.5, 67, 127, 0, 0, 10);
+  extra->stop(200);
 
- extra->stop(200);
+  pid->move(4, -90, 127, 0, -90, 0);
 
- pid->turn(-45, -90);
+  extra->stop(200);
 
- //moves towards the front cap and tilts it so the balls roll into the intake
- pid->move(9.25, 77, 127, 0, 0, 7);
+  pid->turn(12, -90);
 
- extra->misc(100, 0, -60, 800);
+  extra->stop(200);
 
- extra->misc(100, 0, -5, 200);
+  //moves back and turns towards the front cap
+  pid->move(27.5, -90, 127, 0, 0, 0);
 
- //flips the cap
- pid->move(3, -87, 127, 0, 50, 0);
+  extra->stop(200);
 
- extra->stop(200);
+  pid->turn(45, -90);
 
- pid->move(5, 67, 127, 0, 60, 0);
+  extra->stop(200);
 
- pid->move(6, 67, 127, 0, 60, 90);
+  look->visionCorrect(sig);
 
- extra->stop(150);
+  extra->stop(200);
 
- extra->misc(127, 127, 20, 1600);
+  //moves towards the front cap and tilts it so the balls roll into the intake
+  pid->move(10.75, 90, 105, 0, 0, 0);
+
+  extra->misc(100, 0, -60, 900);
+
+  extra->misc(100, 0, -5, 600);
+
+  //flips the cap
+  pid->move(4, -90, 93, 0, 50, 0);
+
+  extra->stop(200);
+
+  pid->turn(7, -90);
+
+  extra->stop(200);
+
+  pid->move(7, 90, 88, 0, 60, 0);
+
+  pid->move(24, 90, 88, 80, 80, 90);
 }
 
 void Auton::redBAuton()

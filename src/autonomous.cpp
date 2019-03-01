@@ -33,7 +33,9 @@ void autonomous()
   {
     Auto->skillsAuton();
   }*/
+  //Auto->blueFAuton();
   //Auto->blueBAuton();
+  //Auto->redFAuton();
   //Auto->redBAuton();
   Auto->skillsAuton();
   //Pid->turn(90, 90);
