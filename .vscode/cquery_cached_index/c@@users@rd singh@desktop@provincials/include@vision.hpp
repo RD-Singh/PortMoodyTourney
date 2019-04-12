@@ -12,7 +12,9 @@ class Vision
     void lowFlag();
     void highLow(int sig);
     void visionPivot(int power, int sig);
-    void flagAlignment();
+    void highFlag(int sig);
+    void middleFlag(int sig);
+    void visionPID(int power, int e, int sig);
 };
 
 #endif

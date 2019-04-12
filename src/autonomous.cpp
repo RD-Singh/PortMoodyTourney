@@ -17,31 +17,46 @@
  PID * Pid = new PID();
  static Vision * visi = new Vision();
  Auton * Auto = new Auton();
+ static Drive * dri = new Drive();
+
 
 
 void autonomous()
-{
-  /*if(auton == 0)
+{/*
+  if(auton == 0)
   {
-    Auto->blueAuton();
+    Auto->blueFAuton();
   }
   else if(auton == 1)
   {
-    Auto->eedAuton();
+    Auto->blueFPAuton();
   }
   else if(auton == 2)
   {
+    Auto->redFAuton();
+  }
+  else if(auton == 3)
+  {
+    Auto->redFPAuton();
+  }
+  else if(auton == 4)
+  {
     Auto->skillsAuton();
-  }*/
+  }
   //Auto->blueFAuton();
   //Auto->blueBAuton();
+  //Auto->blueFPAuton();
   //Auto->redFAuton();
+  //Auto->redFPAuton();
   //Auto->redBAuton();
-  Auto->skillsAuton();
+  //Auto->skillsAuton();
   //Pid->turn(90, 90);
   //Pid->move(40, 90, 0, 0, 0, 0);
 
-  /*pros::delay(800);
+  pros::delay(800);
 
   Pid->move(40, -90, 0, 0, 0, 0);*/
+  //visi->lowFlag();
+
+  //Pid->turn('L', 90, -100);
 }

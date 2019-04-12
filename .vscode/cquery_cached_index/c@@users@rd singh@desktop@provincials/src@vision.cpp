@@ -9,16 +9,17 @@ pros::Motor flywhl(10, HIGHSPEED, REV, DEGREES);
 pros::Controller master(MAIN);
 
 pros::Vision vision (8);
+pros::Vision vision2 (6);
 
 static PID * pid = new PID();
-static Drive * DRIVE = new Drive();
+static Drive * dr = new Drive();
 
 Vision::Vision()
 {
 
 }
 
-/*void Vision::lowFlag()
+void Vision::lowFlag()
 {
   int midx = 158;
 
@@ -28,17 +29,17 @@ Vision::Vision()
 
   while(lowFlag)
   {
-    pros::vision_object_s_t obj = vision.get_by_sig(0, 2);
+    pros::vision_object_s_t obj = vision2.get_by_sig(0, 3);
     x = obj.x_middle_coord;
 
-    if(x < (midx))
+    if(x < (midx - 3))
     {
       leftBDrive.move(-40);
       leftFDrive.move(-40);
       rightFDrive.move(40);
       rightBDrive.move(40);
     }
-    if (x > (midx + 1))
+    if (x > (midx + 3))
     {
       leftBDrive.move(40);
       leftFDrive.move(40);
@@ -48,36 +49,74 @@ Vision::Vision()
     else
     {
       lowFlag = false;
-      DRIVE->setZero();
+      dr->setZero();
     }
   }
 }
 
-void Vision::visionPivot(int power, int sig)
+void Vision::visionPID(int initPower, int e, int sig)
 {
-  int x;
-  bool linedUp = true;
-  int midX = 158;
+  double kp = 0.675;
+  double kd = 0;//0.5;
 
-  while(linedUp)
-  {
-    pros::vision_object_s_t obj = vision.get_by_sig(0, sig);
-    x = obj.x_middle_coord;
+  pros::vision_object_s_t obj = vision.get_by_sig(0, sig);
 
-    if(x != (midX - 1))
+  int x = obj.x_middle_coord;
+
+  int main = 0, secondary = 0, error = 0, lastError = 0;
+  int powerLeft, powerRight;
+  int derivative;
+  int midx = 158;
+
+  int maxPower = initPower;
+  int MIN_POWER = maxPower - 4;
+  //int leftPos = (abs(lfdMotor.get_position()) + abs(lbdMotor.get_Position())/2;
+  main = ((rightFDrive.get_position()) >= (leftFDrive.get_position())) ? (rightFDrive.get_position()) : (leftFDrive.get_position());
+  secondary = ((rightFDrive.get_position()) >= (leftFDrive.get_position())) ? (leftFDrive.get_position()) : (rightFDrive.get_position());
+
+  error = (main - secondary);
+  derivative = error - lastError;
+  lastError = error;
+  int power = 0;
+
+
+    if(main > secondary)
     {
-      pid->turnPID(power);
+       power = (error * kp) + (derivative * kd);
     }
-    else
+
+    if(power > 0)
     {
-      linedUp = false;
-      DRIVE->setZero();
+      if(power < MIN_POWER)
+      {
+        power = MIN_POWER;
+      }
+    }
+    else if(power < 0)
+    {
+      if(power > -MIN_POWER)
+      {
+        power = -MIN_POWER;
+      }
     }
 
-    pros::lcd::set_text(5, "The Current Number is: " + std::to_string(x));
+    if(midx > x)
+    {
+      powerLeft = maxPower;
+      powerRight = power;
+    }
+    else if (midx < x)
+    {
+      powerLeft = power;
+      powerRight = maxPower;
+    }
 
-  }
-}*/
+      leftFDrive.move(powerLeft);
+      rightFDrive.move(powerRight);
+      leftBDrive.move(powerLeft);
+      rightBDrive.move(powerRight);
+
+}
 
 void Vision::visionCorrect(int sig)
 {
@@ -89,17 +128,17 @@ void Vision::visionCorrect(int sig)
 
   while(linedUp)
   {
-    pros::vision_object_s_t obj = vision.get_by_sig(0, sig);
+    pros::vision_object_s_t obj = vision2.get_by_sig(0, sig);
     x = obj.x_middle_coord;
 
-    if(x < (midX - 1))
+    if(x < (midX - 3))
     {
       leftBDrive.move(-20);
       leftFDrive.move(-20);
       rightFDrive.move(20);
       rightBDrive.move(20);
     }
-    else if(x > (midX + 1))
+    else if(x > (midX + 3))
     {
       leftBDrive.move(20);
       leftFDrive.move(20);
@@ -109,7 +148,7 @@ void Vision::visionCorrect(int sig)
     else
     {
       linedUp = false;
-      DRIVE->setZero();
+      dr->setZero();
     }
 
     pros::lcd::set_text(5, "The Current Number is: " + std::to_string(x));
@@ -117,23 +156,57 @@ void Vision::visionCorrect(int sig)
   }
 }
 
-
-void Vision::flagAlignment()
+void Vision::highFlag(int sig)
 {
-  int midX = 158;
 
-  int x;
+  bool inPosition = true;
+  dr->driveBrakeHold();
+  while(inPosition)
+  {
+    pros::vision_object_s_t obj = vision2.get_by_sig(0, sig);
 
-    pros::vision_object_s_t obj = vision.get_by_sig(0, 1);
-    x = obj.x_middle_coord;
+    int y = obj.top_coord;
 
-    if(x < (midX - 3))
+    if(y > 120)
     {
-      master.rumble("-");
+      pid->movePID(45, 300);
     }
-    else if(x > (midX + 3))
+    else if(y < 116)
     {
-      master.rumble("-");
+      pid->backPID(-45, 300);
     }
+    else
+    {
+      inPosition = false;
+      dr->setZero();
+    }
+  }
+}
 
+void Vision::middleFlag(int sig)
+{
+
+  bool inPosition = true;
+  dr->driveBrakeHold();
+
+  while(inPosition)
+  {
+    pros::vision_object_s_t obj = vision2.get_by_sig(0, sig);
+
+    int y = obj.top_coord;
+
+    if(y > 71)
+    {
+      pid->movePID(45, 300);
+    }
+    else if(y < 65)
+    {
+      pid->backPID(-45, 300);
+    }
+    else
+    {
+      inPosition = false;
+      dr->setZero();
+    }
+  }
 }

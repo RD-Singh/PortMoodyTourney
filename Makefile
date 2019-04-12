@@ -30,7 +30,7 @@ EXCLUDE_SRC_FROM_LIB+=$(foreach file, $(SRCDIR)/opcontrol $(SRCDIR)/initialize $
 EXCLUDE_SRC_FROM_LIB+=$(SRCDIR)/auto.cpp
 EXCLUDE_SRC_FROM_LIB+=$(SRCDIR)/PID.cpp
 EXCLUDE_SRC_FROM_LIB+=$(SRCDIR)/Vision.cpp
-
+EXCLUDE_SRC_FROM_LIB+=$(SRCDIR)/drive.cpp
 
 # files that get distributed to every user (beyond your source archive) - add
 # whatever files you want here. This line is configured to add all header files

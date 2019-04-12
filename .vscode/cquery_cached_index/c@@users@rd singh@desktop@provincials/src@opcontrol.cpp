@@ -14,17 +14,9 @@
  * task, not resume it from where it left off.
  */
 
-static PID * pid = new PID();
-static Drive * driv = new Drive();
-static miscell * mis = new miscell();
-static Vision * vis = new Vision();
-
-void miscell::flywheelDrive()
-{
-
-
-}
-
+static miscell * m = new miscell();
+static Drive * d = new Drive();
+static PID * p = new PID();
 void opcontrol() {
 
   pros::Motor backL(11, HIGHSPEED, FWD, DEGREES);
@@ -32,34 +24,77 @@ void opcontrol() {
   pros::Motor frontL(1, HIGHSPEED, FWD, DEGREES);
   pros::Motor frontR(2, HIGHSPEED, REV, DEGREES);
 
-  pros::Motor flywheel(10, HIGHSPEED, REV, DEGREES);
-  pros::Motor tipper(9, HIGHSPEED, FWD, DEGREES);
-  pros::Motor intake(3, HIGHSPEED, REV, DEGREES);
-  pros::Motor indexer(4, HIGHSPEED, REV, DEGREES);
-  pros::Vision vision (8);
+  pros::Motor flywheel(10, TURBO, REV, DEGREES);
+  pros::Motor capIntake(3, HIGHSPEED, REV, DEGREES);
+  pros::Motor intake(9, HIGHSPEED, REV, DEGREES);
+  pros::Motor indexer(14, HIGHSPEED, REV, DEGREES);
+  pros::ADILineSensor ballTrack('A');
+  pros::Vision vision (6);
 
-  pros::ADIGyro gyro ('A');
+  pros::ADIGyro leftGyro ('A');
+  pros::ADIGyro rightGyro ('B');
+
+  pros::ADIUltrasonic leftW (3, 4);
+  pros::ADIUltrasonic rightW ('E', 'F');
+  pros::ADIUltrasonic front ('G', 'H');
 
   pros::Controller master(MAIN);
 
   int speed = 0;
+  int deg;
   int sig = 0;
+  int left, right, avg;
+  int capSpeed = 0;
+
+  m->setSpeed(0);
+
+  capIntake.set_brake_mode(HOLD);
+  capIntake.tare_position();
+
 	while (true) {
+
+    left = leftW.get_value();
+    right = rightW.get_value();
+
+    pros::lcd::set_text(4, "Left  = " + std::to_string(left));
+    pros::lcd::set_text(5, "Right = " + std::to_string(right));
+
+
+//    m->doubleShot();
+
+
 
 		backL.move(((master.get_analog(LEFT_Y) + master.get_analog(LEFT_X)/2)*1.5));
 		frontL.move(((master.get_analog(LEFT_Y) + master.get_analog(LEFT_X)/2)*1.5));
 		frontR.move(((master.get_analog(LEFT_Y) - master.get_analog(LEFT_X)/2)*1.5));
 		backR.move(((master.get_analog(LEFT_Y) - master.get_analog(LEFT_X)/2)*1.5));
 
+    d->driveBrakeHold();
+
+
 		flywheel.set_brake_mode(COAST);
 
-		driv->driveBrakeHold();
+    capIntake.move(master.get_analog(RIGHT_Y));
 
-    tipper.move(master.get_analog(RIGHT_Y));
+
+   if(master.get_analog(RIGHT_Y) == 0 && master.get_digital(BTN_Y))
+    {
+      deg = deg - 225;
+
+      if(deg > 0)
+      {
+        capSpeed = -87;
+      }
+      else if (deg < 0)
+      {
+        capSpeed = 87;
+      }
+      capIntake.move_relative(deg, capSpeed);
+    }
 
     if(master.get_digital(BTN_L1))
 		{
-			indexer.move(87);
+      indexer.move(87);
 		}
 		else if(master.get_digital(BTN_L2))
 		{
@@ -75,144 +110,36 @@ void opcontrol() {
 			intake.move(0);
 		}
 
-    if(master.get_digital(BTN_LEFT))
-    {
-      backL.move(0);
-  		frontL.move(0);
-  		frontR.move(0);
-  		backR.move(0);
-    }
-
     if(master.get_digital(BTN_R1))
     {
-      if(speed == 127)
+      if(m->getSpeed() == 127)
       {
-        speed = 127;
+        m->setSpeed(127);
       }
-      else if(speed == 0)
+      else if(m->getSpeed() == 0)
       {
         for(int i = 1; i <= 127; i++)
         {
             speed++;
         }
+        m->setSpeed(speed);
       }
     }
     else if(master.get_digital(BTN_R2))
     {
-      speed = 0;
-    }
-    else if(master.get_digital(BTN_X))
-    {
-      sig = 3;
-      if(speed == 0)
-      {
-        for(int i = 1; i <= 87; i++)
-        {
-          speed++;
-        }
-      }
-      else if(speed == 127)
-      {
-        for (int i = 127; i >= 87; i--)
-        {
-          speed--;
-        }
-      }
-      else if(speed == 78)
-      {
-        for (int i = 78; i < 87; i++)
-        {
-          speed--;
-        }
-      }
-      vis->visionCorrect(sig);
-    }
-    else if(master.get_digital(BTN_B))
-    {
-      sig = 3;
-      if(speed == 0)
-      {
-        for(int i = 1; i <= 78; i++)
-        {
-          speed++;
-        }
-      }
-      else if(speed == 127)
-      {
-        for (int i = 127; i >= 78; i--)
-        {
-          speed--;
-        }
-      }
-      else if(speed == 87)
-      {
-        for(int i = 87; i >= 78; i--)
-        {
-          speed--;
-        }
-      }
-      vis->visionCorrect(sig);
-    }
-    else if(master.get_digital(BTN_UP))
-    {
-      sig = 1;
-      if(speed == 0)
-      {
-        for(int i = 1; i <= 87; i++)
-        {
-          speed++;
-        }
-      }
-      else if(speed == 127)
-      {
-        for (int i = 127; i >= 87; i--)
-        {
-          speed--;
-        }
-      }
-      else if(speed == 78)
-      {
-        for(int i = 78; i <= 87; i++)
-        {
-          speed++;
-        }
-      }
-      vis->visionCorrect(sig);
-    }
-    else if(master.get_digital(BTN_DOWN))
-    {
-      sig = 1;
-      if(speed == 0)
-      {
-        for(int i = 1; i <= 78; i++)
-        {
-          speed++;
-        }
-      }
-      else if(speed == 127)
-      {
-        for (int i = 127; i >= 78; i--)
-        {
-          speed--;
-        }
-      }
-      else if(speed == 87)
-      {
-        for(int i = 87; i >= 78; i--)
-        {
-          speed--;
-        }
-      }
-      vis->visionCorrect(sig);
+      m->setSpeed(0);
     }
 
-    flywheel.move(speed);
+    flywheel.move(m->getSpeed());
 
+    if(master.get_digital(BTN_LEFT))
+    {
+      p->move(45, 105, 0, 0, 0, 0, 0);
 
-    pros::lcd::set_text(3, "Left Wheel = " + std::to_string(frontL.get_position()));
-    pros::lcd::set_text(4, "Right Wheel = " + std::to_string(frontR.get_position()));
-    pros::lcd::set_text(5, "Left Wheel = " + std::to_string(frontL.get_actual_velocity()));
-    pros::lcd::set_text(6, "Right Wheel = " + std::to_string(frontR.get_actual_velocity()));
+      m->stop(500);
+
+      p->move(45, -105, 0, 0, 0, 0, 0);
+    }
 
     pros::delay(20);
 	}

@@ -1,17 +1,28 @@
 #include "main.h"
+#include <stdio.h>
 
-pros::Motor fly_Wheel(10, HIGHSPEED, REV, DEGREES);
+pros::Motor fly_Wheel(10, TURBO, REV, DEGREES);
 pros::Motor flipper(9, HIGHSPEED, FWD, DEGREES);
 pros::Motor ballIntake(3, HIGHSPEED, REV, DEGREES);
-pros::Motor indexerMtr(4, HIGHSPEED, REV, DEGREES);
+pros::Motor indexerMtr(14, HIGHSPEED, REV, DEGREES);
+pros::ADILineSensor ballTrack('A');
 
+int speed;
 
 miscell::miscell()
 {
 
 }
 
+void miscell::setSpeed(int s)
+{
+    speed = s;
+}
 
+int miscell::getSpeed()
+{
+  return speed;
+}
 
 void miscell::capTip()
 {
@@ -65,6 +76,22 @@ void miscell::misc(int intakeP, int indexerP, int tipperP, int x)
 
   pros::delay(x);
 }
+
+/*void miscell::doubleShot()
+{
+  int speedVal = fly_Wheel.get_actual_velocity();
+  int threshold = 582;
+
+  if(speedVal < threshold)
+  {
+    setSpeed(77);
+  }
+  else
+  {
+    setSpeed(127);
+  }
+
+}*/
 
 void miscell::flywheelAccel(int x)
 {

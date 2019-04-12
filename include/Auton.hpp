@@ -11,8 +11,10 @@ class Auton
 
     void skillsAuton();
     void blueFAuton();
+    void blueFPAuton();
     void blueBAuton();
     void redFAuton();
+    void redFPAuton();
     void redBAuton();
 };
 

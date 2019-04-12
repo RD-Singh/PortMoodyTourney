@@ -7,9 +7,47 @@ pros::Motor leftF(1, HIGHSPEED, FWD, DEGREES);
 pros::Motor rightF(2, HIGHSPEED, REV, DEGREES);
 
 
+
 Drive::Drive()
 {
 
+}
+
+void Drive::sonicReset(int power, int cm)
+{
+  pros::ADIUltrasonic leftW ('C', 'D');
+  pros::ADIUltrasonic rightW ('E', 'F');
+  pros::ADIUltrasonic front ('G', 'H');
+
+  int left;
+  int right;
+  int diff;
+  int tp;
+  int error = 1;
+
+  driveBrakeHold();
+
+  while(error != 0)
+  {
+    left = leftW.get_value();
+    right = rightW.get_value();
+
+    error = ((left + right)/2) - (cm * 10);
+
+    pros::lcd::set_text(4, "left = " + std::to_string(left));
+    pros::lcd::set_text(5, "right = " + std::to_string(right));
+
+    leftF.move(power);
+    leftB.move(power);
+    rightB.move(power);
+    rightF.move(power);
+
+    if(error < 15 && error > -15)
+    {
+      error = 0;
+      setZero();
+    }
+  }
 }
 
 void Drive::drive(int speed, int time)
