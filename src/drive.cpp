@@ -5,8 +5,7 @@ pros::Motor leftB(11, HIGHSPEED, FWD, DEGREES);
 pros::Motor rightB(13, HIGHSPEED, REV, DEGREES);
 pros::Motor leftF(1, HIGHSPEED, FWD, DEGREES);
 pros::Motor rightF(2, HIGHSPEED, REV, DEGREES);
-
-
+pros::Motor ball(9, HIGHSPEED, REV, DEGREES);
 
 Drive::Drive()
 {
@@ -50,14 +49,21 @@ void Drive::sonicReset(int power, int cm)
   }
 }
 
-void Drive::drive(int speed, int time)
+void Drive::drive(int speed, int intake, int time)
 {
   leftF.move(speed);
   leftB.move(speed);
   rightB.move(speed);
   rightF.move(speed);
+  ball.move(intake);
 
   pros::delay(time);
+
+  leftF.move(0);
+  leftB.move(0);
+  rightB.move(0);
+  rightF.move(0);
+  ball.move(0);
 }
 
 void Drive::resetPos()

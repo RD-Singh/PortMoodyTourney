@@ -2,8 +2,8 @@
 #include <stdio.h>
 
 pros::Motor fly_Wheel(10, TURBO, REV, DEGREES);
-pros::Motor flipper(9, HIGHSPEED, FWD, DEGREES);
-pros::Motor ballIntake(3, HIGHSPEED, REV, DEGREES);
+pros::Motor flipper(3, HIGHSPEED, FWD, DEGREES);
+pros::Motor ballIntake(9, HIGHSPEED, REV, DEGREES);
 pros::Motor indexerMtr(14, HIGHSPEED, REV, DEGREES);
 pros::ADILineSensor ballTrack('A');
 
@@ -30,9 +30,9 @@ void miscell::capTip()
 
   flipper.set_brake_mode(HOLD);
 
-  flipper.move_relative(-410, -127);
+  flipper.move_relative(-200, 127);
 
-  while (!((flipper.get_position() < -400) && (flipper.get_position() > -420)))
+  while (!((flipper.get_position() < -180) && (flipper.get_position() > -220)))
   {
    pros::delay(2);
   }

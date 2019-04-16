@@ -56,7 +56,15 @@ void autonomous()
   pros::delay(800);
 
   Pid->move(40, -90, 0, 0, 0, 0);*/
-  //visi->lowFlag();
+  //visi->highFlag(2);
+  Auto->redFPAuton();
+  /*Pid->move(40, 105, 0, 0, 0, 0);
 
-  //Pid->turn('L', 90, -100);
+  pros::delay(400);
+
+  Pid->move(40, -105, 0, 0, 0, 0);*/
+
+  //visi->visionCorrect(2);
+  //Pid->move(23, 80, 127, 0, 40, 0);
+  //Pid->turn(90, 90);
 }

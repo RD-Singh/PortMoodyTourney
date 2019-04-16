@@ -8,11 +8,14 @@ class PID
   public:
 
     explicit PID();
-    void turn(char direction, double degrees, int speed);
+
+    void turn(double degrees, int speed);
+    double checkPower(double power);
+    void powerDrive(int powerLeft, int powerRight);
     void turnPID(int power);
-    void backPID(int power, int error);
-    void movePID(int power, int error);
-    void move(double targetDistance, int maxPower, int flyWheelP, int indexerP, int intakeP, int tipperP, int sig);
+    void backPID(int power);
+    void movePID(int power);
+    void move(double targetDistance, int maxPower, int flyWheelP, int indexerP, int intakeP, int tipperP);
 };
 
 #endif

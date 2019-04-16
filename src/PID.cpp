@@ -6,12 +6,11 @@ pros::Motor frontL(1, HIGHSPEED, FWD, DEGREES);
 pros::Motor frontR(2, HIGHSPEED, REV, DEGREES);
 pros::Motor flyWheel(10, TURBO, REV, DEGREES);
 
-pros::Motor tipper(9, HIGHSPEED, FWD, DEGREES);
-pros::Motor intake(3, HIGHSPEED, REV, DEGREES);
+pros::Motor tipper(3, HIGHSPEED, FWD, DEGREES);
+pros::Motor intake(9, HIGHSPEED, REV, DEGREES);
 pros::Motor indexer(14, HIGHSPEED, REV, DEGREES);
 
-pros::ADIGyro leftGyro ('B');
-pros::ADIGyro rightGyro ('C');
+pros::ADIGyro leftGyro ('A');
 
 static miscell * misc = new miscell();
 static Drive * driveMtrs = new Drive();
@@ -24,7 +23,7 @@ PID::PID()
 
 void PID::turnPID(int power)
 {
-  double kp = 0.78;
+  double kp = 0.75;
   int main = 0;
   int secondary = 0;
   int error = 1;
@@ -74,10 +73,10 @@ void PID::turnPID(int power)
 
 }
 
-void PID::movePID(int initPower, int e)
+void PID::movePID(int initPower)
 {
-  double kp = 0.9;
-  double kd = 0;//615;
+  double kp = 0.387;
+  double kd = 0.395;
 
   int main = 0;
   int secondary = 0;
@@ -128,39 +127,15 @@ void PID::movePID(int initPower, int e)
     powerRight = maxPower;
   }
 
-  if(e < 300)
-  {
-    frontL.move(powerLeft - 30);
-    frontR.move(powerRight - 30);
-    backL.move(powerLeft - 30);
-    backR.move(powerRight - 30);
-
-    if(e < 250)
-    {
-      frontL.move(powerLeft - 60);
-      frontR.move(powerRight - 60);
-      backL.move(powerLeft - 60);
-      backR.move(powerRight - 60);
-
-      if(e < 200)
-      {
-        frontL.move(powerLeft - 90);
-        frontR.move(powerRight - 90);
-        backL.move(powerLeft - 90);
-        backR.move(powerRight - 90);
-      }
-    }
-  }
-
   frontL.move(powerLeft);
   frontR.move(powerRight);
   backL.move(powerLeft);
   backR.move(powerRight);
 }
 
-void PID::backPID(int power, int e)
+void PID::backPID(int power)
 {
-  double kp = 0.6775;
+  double kp = 0.735;
 
  int main = 0;
  int secondary = 0;
@@ -207,65 +182,33 @@ void PID::backPID(int power, int e)
     powerRight = maxPower;
   }
 
-  if(e < 300)
-  {
-    frontL.move(powerLeft + 30);
-    frontR.move(powerRight + 30);
-    backL.move(powerLeft + 30);
-    backR.move(powerRight + 30);
-
-    if(e < 250)
-    {
-      frontL.move(powerLeft + 60);
-      frontR.move(powerRight + 60);
-      backL.move(powerLeft + 60);
-      backR.move(powerRight + 60);
-
-      if(e < 200)
-      {
-        frontL.move(powerLeft + 90);
-        frontR.move(powerRight + 90);
-        backL.move(powerLeft + 90);
-        backR.move(powerRight + 90);
-      }
-    }
-  }
-  else
-  {
     frontL.move(powerLeft);
     frontR.move(powerRight);
     backL.move(powerLeft);
     backR.move(powerRight);
-  }
 }
 
-void PID::turn(char direction, double degrees, int speed)
+void PID::turn(double degrees, int speed)
 {
   driveMtrs->resetPos();
 
+  double kw = 2.686;
+
   double currentBearing = 0;
   double error = 10;
-  double targetBearing = degrees * 10;
+  double targetBearing = degrees * kw;
 
   int left, right;
 
   while(error != 0)
   {
-    left = leftGyro.get_value();
-    right = rightGyro.get_value();
+    left = abs(frontL.get_position());
+    right = abs(frontR.get_position());
 
     currentBearing = (left + right)/2;
 
     error = targetBearing - currentBearing;
 
-    if(direction == 'L')
-    {
-
-    }
-    else if(direction == 'R')
-    {
-
-    }
     turnPID(speed);
 
     if(error < 5 && error > -5)
@@ -276,33 +219,33 @@ void PID::turn(char direction, double degrees, int speed)
     }
   }
   driveMtrs->setZero();
-  leftGyro.reset();
-  rightGyro.reset();
   driveMtrs->resetPos();
 }
 
-void PID::move(double targetDistance, int maxPower, int flyWheelP, int indexerP, int intakeP, int tipperP, int sig)
+
+void PID::move(double targetDistance, int maxPower, int flyWheelP, int indexerP, int intakeP, int tipperP)
 {
   int currentDistance = 0;
-  double error = 20;
+  double error = 20, lastError = 0, derivative;
 
   int targ = (targetDistance/12.566) * 360;
 
   int leftF, rightF;
 
-  int MAX_POWER = maxPower;
+  int MAX_POWER = maxPower, MIN_POWER = 15;
 
-  double kp = 0.95;
+  double kp = 0.365, kd = 0.385;
 
   driveMtrs->resetPos();
 
-  int power = 5, paramPower;
+  int power = 0, paramPower;
 
   if(maxPower > 0)
   {
-    while(power < 105)
+    power = 4;
+    while(power < maxPower)
     {
-      power*=1.36;
+      power*=1.575;
 
       frontL.move(power);
       frontR.move(power);
@@ -313,14 +256,16 @@ void PID::move(double targetDistance, int maxPower, int flyWheelP, int indexerP,
   }
   else if(maxPower < 0)
   {
-    for(int i = 0; i>=(maxPower + 40); i--)
+    power = -4;
+    while(power > -maxPower)
     {
-      power*=1.0475;
+      power*=1.325;
 
       frontL.move(power);
       frontR.move(power);
       backL.move(power);
       backR.move(power);
+      pros::delay(50);
     }
   }
 
@@ -332,14 +277,40 @@ void PID::move(double targetDistance, int maxPower, int flyWheelP, int indexerP,
     currentDistance = (leftF + rightF)/2;
 
     error = targ - currentDistance;
+    derivative = error - lastError;
+    lastError = error;
 
-    paramPower = error * kp;
 
-    if (paramPower > MAX_POWER)
+    paramPower = (error * kp) + (derivative * kd);
+
+    if(maxPower < 0)
     {
-      paramPower = maxPower;
+      paramPower = -paramPower;
     }
-    
+
+    if(paramPower > 0)
+    {
+      if (paramPower > MAX_POWER)
+      {
+        paramPower = maxPower;
+      }
+      else if(paramPower < MIN_POWER)
+      {
+        paramPower = MIN_POWER;
+      }
+    }
+    else if(paramPower < 0)
+    {
+      if (paramPower < MAX_POWER)
+      {
+        paramPower = maxPower;
+      }
+      else if(paramPower > -MIN_POWER)
+      {
+        paramPower = -MIN_POWER;
+      }
+    }
+
     intake.move(intakeP);
     indexer.move(indexerP);
 
@@ -349,11 +320,11 @@ void PID::move(double targetDistance, int maxPower, int flyWheelP, int indexerP,
 
     if(maxPower > 0)
     {
-      movePID(paramPower, error);
+      movePID(paramPower);
     }
     else if(maxPower < 0)
     {
-      backPID(paramPower, error);
+      backPID(paramPower);
     }
 
       if(error < 10 && error > -10)
@@ -364,6 +335,7 @@ void PID::move(double targetDistance, int maxPower, int flyWheelP, int indexerP,
         error = 0;
       }
 
+      pros::delay(5);
   }
   driveMtrs->resetPos();
 

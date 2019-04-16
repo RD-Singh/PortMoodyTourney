@@ -5,6 +5,8 @@ pros::Motor rightBDrive(13, HIGHSPEED, REV, DEGREES);
 pros::Motor leftFDrive(1, HIGHSPEED, FWD, DEGREES);
 pros::Motor rightFDrive(2, HIGHSPEED, REV, DEGREES);
 pros::Motor flywhl(10, HIGHSPEED, REV, DEGREES);
+pros::Motor intak(9, HIGHSPEED, REV, DEGREES);
+
 
 pros::Controller master(MAIN);
 
@@ -131,14 +133,14 @@ void Vision::visionCorrect(int sig)
     pros::vision_object_s_t obj = vision2.get_by_sig(0, sig);
     x = obj.x_middle_coord;
 
-    if(x < (midX - 3))
+    if(x < (midX - 4))
     {
       leftBDrive.move(-20);
       leftFDrive.move(-20);
       rightFDrive.move(20);
       rightBDrive.move(20);
     }
-    else if(x > (midX + 3))
+    else if(x > (midX + 4))
     {
       leftBDrive.move(20);
       leftFDrive.move(20);
@@ -167,13 +169,19 @@ void Vision::highFlag(int sig)
 
     int y = obj.top_coord;
 
-    if(y > 120)
+    if(y > 119)
     {
-      pid->movePID(45, 300);
+      leftBDrive.move(50);
+      leftFDrive.move(50);
+      rightFDrive.move(50);
+      rightBDrive.move(50);
     }
-    else if(y < 116)
+    else if(y < 115)
     {
-      pid->backPID(-45, 300);
+      leftBDrive.move(-50);
+      leftFDrive.move(-50);
+      rightFDrive.move(-50);
+      rightBDrive.move(-50);
     }
     else
     {
@@ -197,11 +205,17 @@ void Vision::middleFlag(int sig)
 
     if(y > 71)
     {
-      pid->movePID(45, 300);
+      leftBDrive.move(50);
+      leftFDrive.move(50);
+      rightFDrive.move(50);
+      rightBDrive.move(50);
     }
     else if(y < 65)
     {
-      pid->backPID(-45, 300);
+      leftBDrive.move(-50);
+      leftFDrive.move(-50);
+      rightFDrive.move(-50);
+      rightBDrive.move(-50);
     }
     else
     {
@@ -209,4 +223,94 @@ void Vision::middleFlag(int sig)
       dr->setZero();
     }
   }
+}
+
+void Vision::collectCapBall()
+{
+
+  bool inPosition = true;
+  dr->driveBrakeHold();
+
+  int midX = 158;
+
+  int x;
+
+  while(inPosition)
+  {
+    pros::vision_object_s_t obj = vision.get_by_sig(0, 3);
+    x = obj.x_middle_coord;
+
+    if(x < (midX - 3))
+    {
+      leftBDrive.move(-30);
+      leftFDrive.move(-30);
+      rightFDrive.move(30);
+      rightBDrive.move(30);
+    }
+    else if(x > (midX + 3))
+    {
+      leftBDrive.move(30);
+      leftFDrive.move(30);
+      rightFDrive.move(-30);
+      rightBDrive.move(-30);
+    }
+    else
+    {
+      inPosition = false;
+      dr->setZero();
+    }
+  }
+
+  pros::delay(300);
+
+  while(inPosition)
+  {
+    pros::vision_object_s_t obj = vision.get_by_sig(0, 3);
+
+    int y = obj.top_coord;
+
+    if(y < 180)
+    {
+      leftBDrive.move(50);
+      leftFDrive.move(50);
+      rightFDrive.move(50);
+      rightBDrive.move(50);
+    }
+    else
+    {
+      inPosition = false;
+      dr->setZero();
+    }
+  }
+
+  leftBDrive.move(40);
+  leftFDrive.move(40);
+  rightFDrive.move(40);
+  rightBDrive.move(40);
+  intak.move(95);
+
+  pros::delay(1200);
+
+  leftBDrive.move(0);
+  leftFDrive.move(0);
+  rightFDrive.move(0);
+  rightBDrive.move(0);
+  intak.move(65);
+
+  pros::delay(300);
+
+  leftBDrive.move(-50);
+  leftFDrive.move(-50);
+  rightFDrive.move(-50);
+  rightBDrive.move(-50);
+  intak.move(95);
+
+  pros::delay(500);
+
+  leftBDrive.move(0);
+  leftFDrive.move(0);
+  rightFDrive.move(0);
+  intak.move(0);
+  rightBDrive.move(0);
+
 }

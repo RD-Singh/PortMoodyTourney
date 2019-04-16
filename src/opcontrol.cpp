@@ -32,7 +32,6 @@ void opcontrol() {
   pros::Vision vision (6);
 
   pros::ADIGyro leftGyro ('A');
-  pros::ADIGyro rightGyro ('B');
 
   pros::ADIUltrasonic leftW (3, 4);
   pros::ADIUltrasonic rightW ('E', 'F');
@@ -53,11 +52,9 @@ void opcontrol() {
 
 	while (true) {
 
-    left = leftW.get_value();
-    right = rightW.get_value();
+    left = leftGyro.get_value();
 
     pros::lcd::set_text(4, "Left  = " + std::to_string(left));
-    pros::lcd::set_text(5, "Right = " + std::to_string(right));
 
 
 //    m->doubleShot();
@@ -75,7 +72,6 @@ void opcontrol() {
 		flywheel.set_brake_mode(COAST);
 
     capIntake.move(master.get_analog(RIGHT_Y));
-
 
    if(master.get_analog(RIGHT_Y) == 0 && master.get_digital(BTN_Y))
     {
@@ -134,11 +130,13 @@ void opcontrol() {
 
     if(master.get_digital(BTN_LEFT))
     {
-      p->move(45, 105, 0, 0, 0, 0, 0);
+    /*  p->move(45, 105, 0, 0, 0, 0);
 
       m->stop(500);
 
-      p->move(45, -105, 0, 0, 0, 0, 0);
+      p->move(45, -105, 0, 0, 0, 0);*/
+
+      p->turn(90, 90);
     }
 
     pros::delay(20);

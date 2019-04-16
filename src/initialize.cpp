@@ -74,14 +74,11 @@ void initialize() {
 	pros::lcd::register_btn2_cb(on_right_button);
 
 	pros::ADIGyro leftGyro ('A');
-	pros::ADIGyro rightGyro ('B');
 
 	pros::ADIUltrasonic leftW ('C', 'D');
 	pros::ADIUltrasonic rightW ('E', 'F');
 	pros::ADIUltrasonic front ('G', 'H');
 
-	leftGyro.reset();
-	rightGyro.reset();
 
 	pros::delay(600);
 }
